@@ -161,7 +161,7 @@ const OurServices = () => {
         {/* Call to Action */}
         <div className="text-center">
           <div className="bg-gradient-to-tl from-primary to-secondary text-primary-content p-8 rounded-2xl shadow-2xl">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+            <h3 className="text-xl font-bold mb-4">
               Ready to Experience FastDelivery?
             </h3>
             <p className="text-lg mb-6 opacity-90 max-w-2xl mx-auto">
