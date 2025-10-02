@@ -11,7 +11,7 @@ const RootLayout = () => {
         <NavBar></NavBar>
       </nav>
       {/* for routing purpose */}
-      <main className="w-10/12 mx-auto my-8 min-h-[calc(100vh-64px)]">
+      <main className="w-10/12 mx-auto my-6 min-h-[calc(100vh-64px)]">
         <Outlet></Outlet>
       </main>
       {/* footer */}
