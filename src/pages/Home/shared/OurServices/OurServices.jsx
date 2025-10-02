@@ -12,6 +12,8 @@ import {
   FaShieldAlt,
   FaPhone
 } from 'react-icons/fa';
+import ServiceCard from './shared/ServiceCard';
+import StatCard from './shared/StatCard';
 
 const OurServices = () => {
   const services = [
@@ -110,51 +112,14 @@ const OurServices = () => {
         {/* Stats Section */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {stats.map((stat, index) => (
-            <div key={index} className="card bg-base-200 shadow-lg">
-              <div className="card-body text-center">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-primary rounded-full text-base-100">
-                    {stat.icon}
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-primary">{stat.value}</h3>
-                <p className="text-base-content/70 font-medium">{stat.label}</p>
-              </div>
-            </div>
+            <StatCard key={index} stat={stat}></StatCard>
           ))}
         </div>
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service) => (
-            <div 
-              key={service.id}
-              className={`card bg-base-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border-l-4 border-secondary`}
-            >
-              <div className="card-body">
-                <div className="flex items-start mb-4">
-                  <div className={`p-3 bg-primary rounded-xl mr-4 text-base-100`}>
-                    {service.icon}
-                  </div>
-                  <h3 className="card-title text-xl font-bold text-base-content">
-                    {service.title}
-                  </h3>
-                </div>
-                
-                <p className="text-base-content/70 mb-4 leading-relaxed">
-                  {service.description}
-                </p>
-                
-                <div className="space-y-2">
-                  {service.features.map((feature, index) => (
-                    <div key={index} className="flex items-center">
-                      <div className={`w-2 h-2 bg-${service.color} rounded-full mr-3`}></div>
-                      <span className="text-sm text-base-content/80">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <ServiceCard key={service.id} service={service}></ServiceCard>
           ))}
         </div>
 
