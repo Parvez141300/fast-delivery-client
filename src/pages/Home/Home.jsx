@@ -5,7 +5,7 @@ import OurServices from './shared/OurServices/OurServices';
 
 const Home = () => {
     return (
-        <div className='space-y-8'>
+        <div className='space-y-12'>
             {/* banner */}
             <Banner></Banner>
             {/* delivery systems */}
