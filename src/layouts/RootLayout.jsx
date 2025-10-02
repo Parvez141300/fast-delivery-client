@@ -7,7 +7,7 @@ const RootLayout = () => {
   return (
     <div>
       {/* navbar */}
-      <nav className="bg-base-100 shadow-sm">
+      <nav className="bg-base-200 shadow-sm">
         <NavBar></NavBar>
       </nav>
       {/* for routing purpose */}
