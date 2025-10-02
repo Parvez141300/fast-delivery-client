@@ -37,7 +37,7 @@ const DeliverySystem = () => {
     <section className="bg-base-100">
       <div className="container mx-auto space-y-5">
         {/* cards */}
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {systems.map((system) => (
             <div
               key={system.id}
