@@ -39,7 +39,7 @@ const Banner = () => {
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
         onAutoplayTimeLeft={onAutoplayTimeLeft}
-        className="min-h-[30vh] md:min-h-[50vh]"
+        className="min-h-[30vh] md:min-h-[50vh] rounded-lg"
       >
         <SwiperSlide>
           <div className="relative w-full h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]">
