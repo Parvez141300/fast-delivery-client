@@ -36,6 +36,7 @@ const DeliverySystem = () => {
   return (
     <section className="bg-base-100">
       <div className="container mx-auto space-y-5">
+        {/* cards */}
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {systems.map((system) => (
             <div
@@ -49,7 +50,7 @@ const DeliverySystem = () => {
                   </div>
                 </div>
 
-                <h3 className="card-title text-xl font-bold justify-center mb-3">
+                <h3 className="card-title text-lg font-bold justify-center mb-3">
                   {system.title}
                 </h3>
 
