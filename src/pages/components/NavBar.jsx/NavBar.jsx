@@ -58,7 +58,7 @@ const NavBar = () => {
     </>
   );
   return (
-    <div className="navbar max-w-10/12 mx-auto p-0">
+    <div className="navbar max-w-7xl mx-auto p-0">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -85,7 +85,7 @@ const NavBar = () => {
             {navItems}
           </ul>
         </div>
-        <FastDeliveryLogo className={'btn btn-ghost px-0'}></FastDeliveryLogo>
+        <FastDeliveryLogo className={'btn btn-ghost px-0 hidden md:block'}></FastDeliveryLogo>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>

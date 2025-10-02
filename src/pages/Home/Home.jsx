@@ -8,7 +8,7 @@ import TestimonialSlider from "./shared/TestimonialSlider/TestimonialSlider";
 
 const Home = () => {
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 md:max-w-7xl mx-auto">
       {/* banner */}
       <Banner></Banner>
       {/* delivery systems */}

@@ -4,16 +4,16 @@ import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 
 const Footer = () => {
   return (
-    <div className="footer sm:footer-horizontal text-base-content max-w-10/12 mx-auto py-10">
-      <nav>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-10/12 mx-auto py-8">
+      <nav className="space-y-2">
         <FastDeliveryLogo></FastDeliveryLogo>
-        <p className="md:w-xs">
+        <p className="lg:max-w-xs">
           FastDelivery Industry <br /> Providing reliable tech since 2010. It's
           a large Industry where our consumer can transport <br />
           their product easily within short amount of time.
         </p>
       </nav>
-      <nav>
+      <nav className="flex flex-col">
         <h6 className="footer-title">Links</h6>
         <Link to={'/'} className="link link-hover">Home</Link>
         <Link to={'/services'} className="link link-hover">Services</Link>
@@ -23,7 +23,7 @@ const Footer = () => {
       </nav>
       <nav>
         <h6 className="footer-title">Social</h6>
-        <div className="grid grid-flow-col gap-4">
+        <div className="flex items-center gap-5">
           <a>
             <svg
               xmlns="http://www.w3.org/2000/svg"

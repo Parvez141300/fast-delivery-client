@@ -75,8 +75,8 @@ const TestimonialSlider = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-base-100 to-base-200">
-      <div className="container mx-auto px-4">
+    <section className="bg-gradient-to-br from-base-100 to-base-200">
+      <div className="">
         {/* Header Section */}
         <div className="text-center space-y-5">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
@@ -142,7 +142,7 @@ const TestimonialSlider = () => {
           >
             {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id}>
-                <div className="bg-base-100 rounded-2xl shadow-xl p-8 h-full border border-base-300 hover:shadow-2xl transition-all duration-300">
+                <div className="bg-base-100 rounded-lg shadow-xl p-8 h-full border border-base-300 hover:shadow-2xl transition-all duration-300">
                   {/* Quote Icon */}
                   <div className="text-primary mb-4">
                     <FaQuoteLeft className="w-8 h-8 opacity-20" />
