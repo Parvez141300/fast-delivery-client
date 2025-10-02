@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router";
+import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 
 const NavBar = () => {
   const navItems = (
@@ -84,9 +85,7 @@ const NavBar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to={"/"} className="btn btn-ghost text-xl px-0">
-          FastDelivery
-        </Link>
+        <FastDeliveryLogo className={'btn btn-ghost px-0'}></FastDeliveryLogo>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{navItems}</ul>

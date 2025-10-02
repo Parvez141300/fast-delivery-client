@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router";
+import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 
 const Footer = () => {
   return (
     <div className="footer sm:footer-horizontal text-base-content max-w-10/12 mx-auto py-10">
       <nav>
-        <Link to={'/'} className="text-xl font-bold">FastDelivery</Link>
+        <FastDeliveryLogo></FastDeliveryLogo>
         <p className="md:w-xs">
           FastDelivery Industry <br /> Providing reliable tech since 2010. It's
           a large Industry where our consumer can transport <br />
