@@ -62,10 +62,10 @@ const Benefits = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-base-100 to-base-200">
-      <div className="container mx-auto px-4">
+    <section className="bg-gradient-to-br from-base-100 to-base-200 rounded-lg">
+      <div className="container mx-auto space-y-5">
         {/* Header Section */}
-        <div className="text-center mb-16">
+        <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full text-sm font-semibold mb-4">
             <FaCheckCircle className="w-4 h-4" />
             Why Choose FastDelivery
@@ -81,7 +81,7 @@ const Benefits = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="bg-base-200 rounded-2xl shadow-lg p-6 border border-base-300">
@@ -95,7 +95,7 @@ const Benefits = () => {
         </div>
 
         {/* Benefits Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {benefits.map((benefit) => (
             <div key={benefit.id} className="group relative">
               <div className="relative bg-base-100 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2 border border-base-300 h-full">
@@ -132,7 +132,7 @@ const Benefits = () => {
 
                   {/* Hover Indicator */}
                   <div
-                    className={`mt-6 pt-4 border-t border-base-300 group-hover:border-transparent transition-colors duration-300`}
+                    className={`pt-4 border-t border-base-300 group-hover:border-transparent transition-colors duration-300`}
                   >
                     <div className="flex items-center gap-2 text-sm font-semibold text-primary">
                       <FaSync className="w-4 h-4 group-hover:animate-spin transition-all" />
