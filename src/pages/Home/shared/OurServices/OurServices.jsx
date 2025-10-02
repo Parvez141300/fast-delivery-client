@@ -9,7 +9,8 @@ import {
   FaExchangeAlt,
   FaClock,
   FaMapMarkerAlt,
-  FaShieldAlt
+  FaShieldAlt,
+  FaPhone
 } from 'react-icons/fa';
 
 const OurServices = () => {
@@ -94,9 +95,9 @@ const OurServices = () => {
 
   return (
     <section className="py-16 bg-base-100" id="services">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto space-y-5">
         {/* Header Section */}
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Our Services
           </h2>
@@ -107,7 +108,7 @@ const OurServices = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {stats.map((stat, index) => (
             <div key={index} className="card bg-base-200 shadow-lg">
               <div className="card-body text-center">
@@ -124,7 +125,7 @@ const OurServices = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service) => (
             <div 
               key={service.id}
@@ -159,7 +160,7 @@ const OurServices = () => {
 
         {/* Call to Action */}
         <div className="text-center">
-          <div className="bg-gradient-to-r from-primary to-secondary text-primary-content p-8 rounded-2xl shadow-2xl">
+          <div className="bg-gradient-to-tl from-primary to-secondary text-primary-content p-8 rounded-2xl shadow-2xl">
             <h3 className="text-2xl md:text-3xl font-bold mb-4">
               Ready to Experience FastDelivery?
             </h3>
@@ -167,12 +168,12 @@ const OurServices = () => {
               Join thousands of satisfied customers and businesses who trust us with their deliveries across Bangladesh.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="btn btn-accent btn-lg text-accent-content">
+              <Link to="/booking" className="btn btn-primary">
                 <FaShippingFast className="w-5 h-5 mr-2" />
                 Book Delivery Now
               </Link>
-              <Link to="/contact" className="btn btn-outline btn-lg btn-primary">
-                Contact Our Team
+              <Link to="/contact" className="btn btn-secondary">
+                <FaPhone className='w-5 h-5 mr-2' /> Contact Our Team
               </Link>
             </div>
           </div>
