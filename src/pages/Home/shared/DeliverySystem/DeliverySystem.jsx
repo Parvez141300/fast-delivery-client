@@ -61,27 +61,6 @@ const DeliverySystem = () => {
             </div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <div className="text-center">
-          <div className="bg-primary text-primary-content p-8 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold mb-4">
-              Ready to Ship with FastDelivery?
-            </h3>
-            <p className="mb-6 opacity-90">
-              Join thousands of satisfied customers who trust us with their
-              deliveries
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="btn btn-secondary">
-                Book Now
-              </Link>
-              <Link to="/contact" className="btn btn-secondary">
-                Contact Us
-              </Link>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
