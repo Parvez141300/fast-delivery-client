@@ -5,6 +5,7 @@ import OurServices from "./shared/OurServices/OurServices";
 import Brands from "./shared/Brands/Brands";
 import Benefits from "./shared/Benefits/Benefits";
 import TestimonialSlider from "./shared/TestimonialSlider/TestimonialSlider";
+import FAQ from "./shared/FAQ/FAQ";
 
 const Home = () => {
   return (
@@ -21,6 +22,8 @@ const Home = () => {
       <Benefits></Benefits>
       {/* testimonial slider */}
       <TestimonialSlider></TestimonialSlider>
+      {/* faq section */}
+      <FAQ></FAQ>
     </div>
   );
 };
