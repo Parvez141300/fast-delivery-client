@@ -45,7 +45,7 @@ const DeliverySystem = () => {
             >
               <div className="card-body text-center">
                 <div className="flex justify-center mb-4">
-                  <div className="p-4 bg-primary rounded-full text-primary-content">
+                  <div className="p-4 bg-primary rounded-full text-base-100">
                     {system.icon}
                   </div>
                 </div>
