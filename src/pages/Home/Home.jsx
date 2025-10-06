@@ -9,7 +9,7 @@ import FAQ from "./shared/FAQ/FAQ";
 
 const Home = () => {
   return (
-    <div className="space-y-12 md:max-w-7xl mx-auto">
+    <div className="space-y-12 min-w-10/12 max-w-7xl mx-auto">
       {/* banner */}
       <Banner></Banner>
       {/* delivery systems */}

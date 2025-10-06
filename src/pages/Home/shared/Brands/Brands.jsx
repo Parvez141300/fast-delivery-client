@@ -12,7 +12,7 @@ const brands = [brand1, brand2, brand3, brand4, brand5, brand6, brand7];
 
 const Brands = () => {
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 max-w-7xl mx-auto">
       <h3 className="text-xl text-center font-bold">
         We've helped thousands of sales teams
       </h3>

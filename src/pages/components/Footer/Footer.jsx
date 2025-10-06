@@ -4,7 +4,7 @@ import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 
 const Footer = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-10/12 mx-auto py-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-11/12 md:w-auto md:max-w-7xl mx-auto py-8">
       <nav className="space-y-2">
         <FastDeliveryLogo></FastDeliveryLogo>
         <p className="lg:max-w-xs">
@@ -15,11 +15,21 @@ const Footer = () => {
       </nav>
       <nav className="flex flex-col">
         <h6 className="footer-title">Links</h6>
-        <Link to={'/'} className="link link-hover">Home</Link>
-        <Link to={'/services'} className="link link-hover">Services</Link>
-        <Link to={'/coverage'} className="link link-hover">Coverage</Link>
-        <Link to={'/about-us'} className="link link-hover">About Us</Link>
-        <Link to={'/contact-us'} className="link link-hover">Contact Us</Link>
+        <Link to={"/"} className="link link-hover">
+          Home
+        </Link>
+        <Link to={"/services"} className="link link-hover">
+          Services
+        </Link>
+        <Link to={"/coverage"} className="link link-hover">
+          Coverage
+        </Link>
+        <Link to={"/about-us"} className="link link-hover">
+          About Us
+        </Link>
+        <Link to={"/contact-us"} className="link link-hover">
+          Contact Us
+        </Link>
       </nav>
       <nav>
         <h6 className="footer-title">Social</h6>
