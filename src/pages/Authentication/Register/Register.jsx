@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegUserCircle } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 import { Link } from "react-router";
@@ -6,18 +6,54 @@ import { Link } from "react-router";
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const fileInputRef = useRef(null);
+  // this function is for file open picker
+  const handleAvater = () => {
+    fileInputRef.current.click(); //open file picker
+  };
+  // set image to the state of preview and to save in the cloudinary and database
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
   return (
     <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl">
       <h1 className="text-center text-xl font-bold">Register Now!</h1>
       <div className="card-body">
         <fieldset className="fieldset">
           {/* User Image field */}
-          <label className="label">User Image</label>
-          <input
-            type="file"
-            className="input w-full focus-within:outline-0"
-            placeholder="image"
-          />
+          <label>User Image</label>
+          {/* image input field */}
+          <div
+            onClick={handleAvater}
+            className="avatar avatar-placeholder cursor-pointer"
+          >
+            <div className="bg-neutral text-neutral-content w-12 rounded-full border-2 border-primary">
+              {/* image preview or icon */}
+              <span>
+                {imagePreview ? (
+                  <img src={imagePreview} alt="preview" />
+                ) : (
+                  <FaRegUserCircle size={20} />
+                )}
+                {/* input field */}
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  className="input w-full focus-within:outline-0 hidden"
+                  placeholder="image"
+                  accept="image/*"
+                  ref={fileInputRef}
+                />
+              </span>
+            </div>
+          </div>
+
           {/* name field */}
           <label className="label">User Name</label>
           <span className="input validator w-full focus-within:outline-0">
@@ -58,7 +94,10 @@ const Register = () => {
           <label className="label">Confirm Password</label>
           <span className="input validator w-full focus-within:outline-0">
             <MdLockOutline size={20} />
-            <input type={showConfirmPassword ? 'text' : 'password'} placeholder="Password" />
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Password"
+            />
             {showConfirmPassword ? (
               <button
                 onClick={() => setShowConfirmPassword(false)}
