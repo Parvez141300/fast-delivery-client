@@ -1,14 +1,18 @@
 import React from "react";
 import { Outlet } from "react-router";
+import LottieRegisterAndLogin from "../assets/LottieFiles/Register and Login.json";
+import Lottie from "lottie-react";
 
 const AuthLayout = () => {
   return (
-    <section className="w-11/12 md:w-auto lg:w-7xl mx-auto my-12">
-      <div className=" grid grid-cols-1 md:grid-cols-2">
-        <div>
+    <section className="w-11/12 md:w-10/12 lg:w-7xl mx-auto my-12 min-h-screen flex items-center justify-center">
+      <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex-1">
           <Outlet></Outlet>
         </div>
-        <div></div>
+        <div className="flex-1">
+          <Lottie animationData={LottieRegisterAndLogin} loop={true} />
+        </div>
       </div>
     </section>
   );
