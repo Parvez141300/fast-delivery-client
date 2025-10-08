@@ -147,7 +147,7 @@ const Benefits = () => {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <div className="bg-base-100 rounded-2xl shadow-lg border border-base-300 p-8 max-w-4xl mx-auto">
+          <div className="bg-gradient-to-tl from-primary to-secondary text-primary-content p-8 rounded-2xl shadow-2xl">
             <div className="flex flex-col items-center justify-between gap-6">
               <div className="text-center">
                 <h3 className="text-xl font-bold mb-2">
@@ -163,7 +163,7 @@ const Benefits = () => {
                   <FaMapMarkerAlt className="w-5 h-5 mr-2" />
                   Track Your Parcel
                 </button>
-                <button className="btn btn-primary btn-outline">
+                <button className="btn btn-secondary">
                   <FaHeadset className="w-5 h-5 mr-2" />
                   Contact Support
                 </button>
