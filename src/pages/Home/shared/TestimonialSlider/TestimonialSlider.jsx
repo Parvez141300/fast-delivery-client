@@ -79,17 +79,16 @@ const TestimonialSlider = () => {
       <div className="">
         {/* Header Section */}
         <div className="text-center space-y-5">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full text-sm font-semibold mb-4">
             <FaQuoteLeft className="w-4 h-4" />
-            Testimonials
+            Testimonial
           </div>
           <h2 className="text-3xl md:text-4xl font-bold">
             What Our Customers Are Saying
           </h2>
           <p className="max-w-lg mx-auto">
-            Don't just take our word for it. Here's what our valued
-            customers have to say about their experience with
-            FastDelivery.
+            Don't just take our word for it. Here's what our valued customers
+            have to say about their experience with FastDelivery.
           </p>
         </div>
 
