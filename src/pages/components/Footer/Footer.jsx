@@ -5,7 +5,7 @@ import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 const Footer = () => {
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-11/12 md:w-auto md:max-w-7xl mx-auto py-8 border-b border-b-primary">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-11/12 md:w-10/12 md:max-w-7xl mx-auto py-8 border-b border-b-primary">
         <nav className="space-y-2">
           <FastDeliveryLogo></FastDeliveryLogo>
           <p className="lg:max-w-xs">
