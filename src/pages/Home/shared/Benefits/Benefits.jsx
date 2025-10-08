@@ -68,7 +68,7 @@ const Benefits = () => {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-6 py-2 rounded-full text-sm font-semibold mb-4">
             <FaCheckCircle className="w-4 h-4" />
-            Why Choose FastDelivery
+            Benefits
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-base-content mb-6">
             Experience Peace of Mind
