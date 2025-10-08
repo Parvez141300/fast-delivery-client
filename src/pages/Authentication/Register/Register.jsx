@@ -4,6 +4,7 @@ import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 import { Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -33,9 +34,20 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    const {name, email, password, confirmPassword} = data;
-    
-    console.log("register form data: ", data);
+    const { name, email, password, confirmPassword } = data;
+    if (password !== confirmPassword) {
+      return toast.error("Password didn't matched the Confirmation Password", {
+        position: "top-center",
+      });
+    }
+    if (!imageFile) {
+      return toast.error("You haven't given your image", {
+        position: "top-center",
+      });
+    }
+
+    const registerInfo = { ...data, image: imageFile };
+    console.log("register form data: ", registerInfo);
   };
 
   return (
@@ -83,16 +95,11 @@ const Register = () => {
                 maxLength: 20,
               })}
             />
-            <br />
-            {errors.name && (
-              <p className="text-red-500">{errors.name.message}</p>
-            )}
-            {errors.name?.type === "maxLength" && (
-              <p className="text-red-500">
-                The name should be 20 character long
-              </p>
-            )}
           </span>
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+          {errors.name?.type === "maxLength" && (
+            <p className="text-red-500">The name should be 20 character long</p>
+          )}
           {/* email field */}
           <label className="label">User Email</label>
           <span className="input validator w-full focus-within:outline-0">
@@ -102,11 +109,10 @@ const Register = () => {
               placeholder="Email"
               {...register("email", { required: "Email is required" })}
             />
-            <br />
-            {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
           </span>
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
           {/* password field */}
           <label className="label">User Password</label>
           <span className="relative input validator w-full focus-within:outline-0">
@@ -119,17 +125,9 @@ const Register = () => {
                 maxLength: 10,
               })}
             />
-            <br />
-            {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
-            {errors.password?.type === "minLength" && (
-              <p className="text-red-500">
-                Password must be maximum 10 character long
-              </p>
-            )}
             {showPassword ? (
               <button
+                type="button"
                 onClick={() => setShowPassword(false)}
                 className="absolute top-1/2 -translate-y-1/2 right-4 z-10 cursor-pointer"
               >
@@ -137,6 +135,7 @@ const Register = () => {
               </button>
             ) : (
               <button
+                type="button"
                 onClick={() => setShowPassword(true)}
                 className="absolute top-1/2 -translate-y-1/2 right-4 z-10 cursor-pointer"
               >
@@ -144,6 +143,14 @@ const Register = () => {
               </button>
             )}
           </span>
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
+          {errors.password?.type === "maxLength" && (
+            <p className="text-red-500">
+              Password must be maximum 10 character long
+            </p>
+          )}
           {/* confirm password field */}
           <label className="label">Confirm Password</label>
           <span className="input validator w-full focus-within:outline-0">
@@ -153,12 +160,9 @@ const Register = () => {
               placeholder="Password"
               {...register("confirmPassword", { required: true })}
             />
-            <br />
-            {errors.confirmPassword?.type === "required" && (
-              <p className="text-red-500">Confirmation password is required</p>
-            )}
             {showConfirmPassword ? (
               <button
+                type="button"
                 onClick={() => setShowConfirmPassword(false)}
                 className="absolute top-1/2 -translate-y-1/2 right-4 z-10 cursor-pointer"
               >
@@ -166,6 +170,7 @@ const Register = () => {
               </button>
             ) : (
               <button
+                type="button"
                 onClick={() => setShowConfirmPassword(true)}
                 className="absolute top-1/2 -translate-y-1/2 right-4 z-10 cursor-pointer"
               >
@@ -173,6 +178,9 @@ const Register = () => {
               </button>
             )}
           </span>
+          {errors.confirmPassword?.type === "required" && (
+            <p className="text-red-500">Confirmation password is required</p>
+          )}
           <div className="flex items-center gap-1">
             Already Have An Account?
             <Link to={"/login"} className="link link-hover">
