@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegUserCircle } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 import { Link } from "react-router";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +14,7 @@ const Register = () => {
   const handleAvater = () => {
     fileInputRef.current.click(); //open file picker
   };
-  // set image to the state of preview and to save in the cloudinary and database
+  // set image to the state of preview and make the image format to save in the cloudinary and database
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -22,9 +23,9 @@ const Register = () => {
     }
   };
   return (
-    <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl">
+    <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl p-5 rounded-lg">
       <h1 className="text-center text-xl font-bold">Register Now!</h1>
-      <div className="card-body">
+      <form>
         <fieldset className="fieldset">
           {/* User Image field */}
           <label>User Image</label>
@@ -122,7 +123,13 @@ const Register = () => {
           </div>
           <button className="btn btn-primary mt-4">Register</button>
         </fieldset>
-      </div>
+      </form>
+      <div className="divider">OR</div>
+      {/* Google */}
+      <button className="btn bg-white text-black border-[#e5e5e5] flex justify-center items-center w-full">
+        <FcGoogle size={20} />
+        Login with Google
+      </button>
     </div>
   );
 };
