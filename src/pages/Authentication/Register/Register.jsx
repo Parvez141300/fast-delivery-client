@@ -8,7 +8,7 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl">
-      <h1 className="text-center text-3xl font-bold">Register Now!</h1>
+      <h1 className="text-center text-xl font-bold">Register Now!</h1>
       <div className="card-body">
         <fieldset className="fieldset">
           {/* User Image field */}

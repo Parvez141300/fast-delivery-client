@@ -7,7 +7,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl">
-      <h1 className="text-center text-3xl font-bold">Login Now!</h1>
+      <h1 className="text-center text-xl font-bold">Login Now!</h1>
       <div className="card-body">
         <fieldset className="fieldset">
           {/* email field */}
