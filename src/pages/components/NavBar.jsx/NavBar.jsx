@@ -114,48 +114,42 @@ const NavBar = () => {
       <div className="navbar-end gap-2">
         {/* theme toggle light to dark or dark to light */}
         <ThemeToggle />
-        {loading ? (
-          <span className="loading loading-spinner loading-lg"></span>
-        ) : (
+        {user ? (
           <>
-            {user ? (
-              <>
-                <div
-                  className="avatar"
-                  data-tooltip-id="user-info"
-                  data-tooltip-content={user?.displayName}
-                >
-                  <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                    <img
-                      src={user?.photoURL}
-                      alt={user?.displayName}
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-                <Tooltip id="user-info" />
-                <button
-                  onClick={handleLogout}
-                  disabled={loading}
-                  to={"/login"}
-                  className="btn btn-primary btn-outline"
-                >
-                  {loading ? (
-                    <>
-                      <span className="loading loading-spinner"></span>
-                      Logging Out
-                    </>
-                  ) : (
-                    <>Logout</>
-                  )}
-                </button>
-              </>
-            ) : (
-              <Link to={"/login"} className="btn btn-primary btn-outline">
-                Login
-              </Link>
-            )}
+            <div
+              className="avatar"
+              data-tooltip-id="user-info"
+              data-tooltip-content={user?.displayName}
+            >
+              <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                <img
+                  src={user?.photoURL}
+                  alt={user?.displayName}
+                  className="object-cover"
+                />
+              </div>
+            </div>
+            <Tooltip id="user-info" />
+            <button
+              onClick={handleLogout}
+              disabled={loading}
+              to={"/login"}
+              className="btn btn-primary btn-outline"
+            >
+              {loading ? (
+                <>
+                  <span className="loading loading-spinner"></span>
+                  Logging Out
+                </>
+              ) : (
+                <>Logout</>
+              )}
+            </button>
           </>
+        ) : (
+          <Link to={"/login"} className="btn btn-primary btn-outline">
+            Login
+          </Link>
         )}
 
         <Link to={"/be-a-rider"} className="btn btn-primary">
