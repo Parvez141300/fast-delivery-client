@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegUserCircle } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router";
-import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
+import SocialLogin from "../shared/SocialLogin";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -254,10 +254,7 @@ const Register = () => {
       </form>
       <div className="divider">OR</div>
       {/* Google */}
-      <button className="btn bg-white text-black border-[#e5e5e5] flex justify-center items-center w-full">
-        <FcGoogle size={20} />
-        Login with Google
-      </button>
+      <SocialLogin />
     </div>
   );
 };

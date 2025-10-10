@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../../firebase/firebase.config";
 
+const googleProvider = new GoogleAuthProvider();
+
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  console.log('user currnet', user);
   const [loading, setLoading] = useState(false);
 
   // register user
@@ -28,6 +33,11 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+  // google login
+  const googleLogin = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider)
+  }
   //   logout user
   const logOut = () => {
     setLoading(true);
@@ -52,6 +62,7 @@ const AuthProvider = ({ children }) => {
     userProfileUpdate,
     logIn,
     logOut,
+    googleLogin,
     loading,
     setLoading,
   };
