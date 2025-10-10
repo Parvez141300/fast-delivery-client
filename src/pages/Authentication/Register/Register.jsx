@@ -66,7 +66,6 @@ const Register = () => {
     const imgData = await res.json();
     const imageURL = imgData.secure_url;
 
-    console.log("image url from cloudinary", imageURL);
 
     if (!imageURL) {
       return toast.error("Image file didn't hosted in cloudinary");
@@ -75,7 +74,6 @@ const Register = () => {
     // creating a user
     createUser(email, password)
       .then((userCredential) => {
-        console.log("user credentials", userCredential);
         // update profile
         userProfileUpdate({
           ...userCredential.user,
