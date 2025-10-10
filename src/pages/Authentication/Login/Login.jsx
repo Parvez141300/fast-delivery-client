@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { logIn } = useAuth();
+  const { logIn, loading, user } = useAuth();
   const navigate = useNavigate();
   // const react hook form
   const {
@@ -93,7 +93,16 @@ const Login = () => {
               Register
             </Link>
           </div>
-          <button className="btn btn-primary mt-4">Login</button>
+          
+          <button disabled={loading} className="btn btn-primary mt-4">
+            {loading ? (
+              <>
+                <span className="loading loading-spinner"></span> Logging In
+              </>
+            ) : (
+              <>Login</>
+            )}
+          </button>
         </fieldset>
       </form>
       <div className="divider">OR</div>

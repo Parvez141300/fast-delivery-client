@@ -4,6 +4,8 @@ import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
+import { Tooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 
 const NavBar = () => {
   const { user, logOut, loading, setLoading } = useAuth();
@@ -117,21 +119,37 @@ const NavBar = () => {
         ) : (
           <>
             {user ? (
-              <button
-                onClick={handleLogout}
-                disabled={loading}
-                to={"/login"}
-                className="btn btn-primary btn-outline"
-              >
-                {loading ? (
-                  <>
-                    <span className="loading loading-spinner"></span>
-                    Logging Out
-                  </>
-                ) : (
-                  <>Logout</>
-                )}
-              </button>
+              <>
+                <div
+                  className="avatar"
+                  data-tooltip-id="user-info"
+                  data-tooltip-content={user?.displayName}
+                >
+                  <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                    <img
+                      src={user?.photoURL}
+                      alt={user?.displayName}
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+                <Tooltip id="user-info" />
+                <button
+                  onClick={handleLogout}
+                  disabled={loading}
+                  to={"/login"}
+                  className="btn btn-primary btn-outline"
+                >
+                  {loading ? (
+                    <>
+                      <span className="loading loading-spinner"></span>
+                      Logging Out
+                    </>
+                  ) : (
+                    <>Logout</>
+                  )}
+                </button>
+              </>
             ) : (
               <Link to={"/login"} className="btn btn-primary btn-outline">
                 Login
