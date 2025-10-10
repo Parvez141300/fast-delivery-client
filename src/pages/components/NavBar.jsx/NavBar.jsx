@@ -2,8 +2,11 @@ import React from "react";
 import { Link, NavLink } from "react-router";
 import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import useAuth from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
+  const { user, logOut, loading, setLoading } = useAuth();
   const navItems = (
     <>
       <li>
@@ -58,6 +61,19 @@ const NavBar = () => {
       </li>
     </>
   );
+
+  // logout a user
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Successfully logged out");
+        setLoading(false);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
   return (
     <div className="navbar w-11/12 md:w-10/12 md:max-w-7xl mx-auto p-0">
       <div className="navbar-start">
@@ -94,9 +110,39 @@ const NavBar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end gap-2">
+        {/* theme toggle light to dark or dark to light */}
         <ThemeToggle />
-        <Link to={'/login'} className="btn btn-primary btn-outline">Login</Link>
-        <Link to={'/be-a-rider'} className="btn btn-primary">Be a rider</Link>
+        {loading ? (
+          <span className="loading loading-spinner loading-lg"></span>
+        ) : (
+          <>
+            {user ? (
+              <button
+                onClick={handleLogout}
+                disabled={loading}
+                to={"/login"}
+                className="btn btn-primary btn-outline"
+              >
+                {loading ? (
+                  <>
+                    <span className="loading loading-spinner"></span>
+                    Logging Out
+                  </>
+                ) : (
+                  <>Logout</>
+                )}
+              </button>
+            ) : (
+              <Link to={"/login"} className="btn btn-primary btn-outline">
+                Login
+              </Link>
+            )}
+          </>
+        )}
+
+        <Link to={"/be-a-rider"} className="btn btn-primary">
+          Be a rider
+        </Link>
       </div>
     </div>
   );
