@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegUserCircle } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ const Register = () => {
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
   const { createUser, userProfileUpdate, loading, setLoading } = useAuth();
+  const navigate = useNavigate();
 
   // this function is for file open picker
   const handleAvater = () => {
@@ -66,7 +67,6 @@ const Register = () => {
     const imgData = await res.json();
     const imageURL = imgData.secure_url;
 
-
     if (!imageURL) {
       return toast.error("Image file didn't hosted in cloudinary");
     }
@@ -88,6 +88,7 @@ const Register = () => {
             reset();
             setImageFile(null);
             setImagePreview(null);
+            navigate("/");
           })
           .catch((err) => {
             toast.error(err.message);

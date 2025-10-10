@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { logIn } = useAuth();
+  const navigate = useNavigate();
   // const react hook form
   const {
     register,
@@ -15,6 +19,17 @@ const Login = () => {
   } = useForm();
   const onSubmit = (data) => {
     console.log("login form data:", data);
+
+    logIn(data.email, data.password)
+      .then((userCredential) => {
+        toast.success(
+          `Successfully Logged in user: ${userCredential?.user?.displayName}`
+        );
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
   return (
     <div className="bg-base-100 md:max-w-md lg:max-w-lg shadow-2xl p-5">
