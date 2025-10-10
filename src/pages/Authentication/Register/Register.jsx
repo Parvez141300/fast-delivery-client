@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { FaRegEye, FaRegEyeSlash, FaRegUserCircle } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
@@ -15,6 +15,8 @@ const Register = () => {
   const fileInputRef = useRef(null);
   const { createUser, userProfileUpdate, loading, setLoading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state.from.pathname || "/";
 
   // this function is for file open picker
   const handleAvater = () => {
@@ -88,7 +90,7 @@ const Register = () => {
             reset();
             setImageFile(null);
             setImagePreview(null);
-            navigate("/");
+            navigate(from);
           })
           .catch((err) => {
             toast.error(err.message);

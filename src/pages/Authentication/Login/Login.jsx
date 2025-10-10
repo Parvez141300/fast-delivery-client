@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { MdLockOutline, MdOutlineEmail } from "react-icons/md";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
@@ -11,6 +11,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { logIn, loading, user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state.from.pathname || "/";
   // const react hook form
   const {
     register,
@@ -25,7 +27,7 @@ const Login = () => {
         toast.success(
           `Successfully Logged in user: ${userCredential?.user?.displayName}`
         );
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -93,7 +95,7 @@ const Login = () => {
               Register
             </Link>
           </div>
-          
+
           <button disabled={loading} className="btn btn-primary mt-4">
             {loading ? (
               <>
