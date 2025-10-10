@@ -5,6 +5,7 @@ import { Link } from "react-router";
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,7 @@ const Register = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
+  const { createUser, userProfileUpdate, loading, setLoading } = useAuth();
 
   // this function is for file open picker
   const handleAvater = () => {
@@ -31,23 +33,71 @@ const Register = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm();
 
-  const onSubmit = (data) => {
+  // register function
+  const onSubmit = async (data) => {
     const { name, email, password, confirmPassword } = data;
+    // validation
     if (password !== confirmPassword) {
       return toast.error("Password didn't matched the Confirmation Password", {
         position: "top-center",
       });
     }
     if (!imageFile) {
-      return toast.error("You haven't given your image", {
-        position: "top-center",
-      });
+      return toast.error("You haven't given your image");
     }
 
-    const registerInfo = { ...data, image: imageFile };
-    console.log("register form data: ", registerInfo);
+    // upload image in cloudinary and get the hosted image link
+    const uploadPreset = "fast-delivery-images";
+    const cloudName = "dapbx8al2";
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", uploadPreset);
+    formData.append("cloud_name", cloudName);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const imgData = await res.json();
+    const imageURL = imgData.secure_url;
+
+    console.log("image url from cloudinary", imageURL);
+
+    if (!imageURL) {
+      return toast.error("Image file didn't hosted in cloudinary");
+    }
+
+    // creating a user
+    createUser(email, password)
+      .then((userCredential) => {
+        console.log("user credentials", userCredential);
+        // update profile
+        userProfileUpdate({
+          ...userCredential.user,
+          displayName: name,
+          photoURL: imageURL,
+        })
+          .then(() => {
+            toast.success("User Successfully Registered", {
+              position: "top-center",
+            });
+            setLoading(false);
+            reset();
+            setImageFile(null);
+            setImagePreview(null);
+          })
+          .catch((err) => {
+            toast.error(err.message);
+          });
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   };
 
   return (
@@ -56,13 +106,13 @@ const Register = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="fieldset">
           {/* User Image field */}
-          <label>User Image</label>
+          <label className="label">User Image</label>
           {/* image input field */}
           <div
             onClick={handleAvater}
             className="avatar avatar-placeholder cursor-pointer"
           >
-            <div className="bg-neutral text-neutral-content w-12 rounded-full border-2 border-primary">
+            <div className="bg-neutral text-neutral-content w-20 rounded-full border-2 border-primary">
               {/* image preview or icon */}
               <span>
                 {imagePreview ? (
@@ -187,8 +237,19 @@ const Register = () => {
               Login
             </Link>
           </div>
-          <button type="submit" className="btn btn-primary mt-4">
-            Register
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn btn-primary mt-4"
+          >
+            {loading ? (
+              <>
+                <span className="loading loading-spinner"></span>
+                Registering
+              </>
+            ) : (
+              <>Register</>
+            )}
           </button>
         </fieldset>
       </form>
