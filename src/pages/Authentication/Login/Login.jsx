@@ -12,7 +12,7 @@ const Login = () => {
   const { logIn, loading, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state.from.pathname || "/";
+  const from = location?.state?.from?.pathname || "/";
   // const react hook form
   const {
     register,
