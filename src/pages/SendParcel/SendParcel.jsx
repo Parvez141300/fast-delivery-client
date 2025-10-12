@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import serviceBranches from "../../assets/service-branches/service-branches.json";
 import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
 
 const uniqueRegions = Array.from(
   new Set(serviceBranches.map((sb) => sb.region))
 );
 
 const SendParcel = () => {
+  const { user } = useAuth();
   const [senderServiceCenter, setSenderServiceCenter] = useState([]);
   const [receiverServiceCenter, setReceiverServiceCenter] = useState([]);
-
+  //   react hook form
   const {
     register,
     unregister,
@@ -63,7 +65,7 @@ const SendParcel = () => {
       baseCost += 60;
     } else {
       baseCost += 80;
-      if (parseFloat(data?.weight) <= 1) {
+      if (parseFloat(data?.weight) <= 3) {
         weightCost += 20;
       } else if (parseFloat(data?.weight) <= 5) {
         weightCost += 30;
@@ -91,27 +93,45 @@ const SendParcel = () => {
   const onSubmit = (data) => {
     const cost = calculateCost(data);
     const costCalculation = calculateCost(data);
-    data.cost = cost;
-    console.log("form data", data);
 
     // alert for showing the details of the delivery cost
     Swal.fire({
       title: "🎁 Delivery Cost Calculation",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonText: "Confirm & Submit",
+      cancelButtonText: "Cancel",
+      preConfirm: () => confirmParcel(data, costCalculation.total),
       html: `
         <div className="space-y-5">
-            <div class="flex justify-between">
-              <span>Base Cost (${data.parcelType === 'document' ? 'Document' : 'Non-Document'}):</span>
-              <span class="font-semibold">৳${costCalculation?.breakDown?.baseCost}</span>
+            <div class="flex justify-center">
+                ${
+                  data?.senderRegion === data?.receiverRegion
+                    ? `<span class="font-semibold">Same Region</span>`
+                    : `<span class="font-semibold">Outside Region</span>`
+                }
             </div>
-            ${data.parcelType === 'non-document' ? `
+            <div class="flex justify-between">
+              <span>Base Cost (${
+                data.parcelType === "document" ? "Document" : "Non-Document"
+              }):</span>
+              <span class="font-semibold">৳${
+                costCalculation?.breakDown?.baseCost
+              }</span>
+            </div>
+            ${
+              data.parcelType === "non-document"
+                ? `
             <div class="flex justify-between">
               <span>Weight Charge (${data.weight}kg):</span>
               <span class="font-semibold">৳${costCalculation?.breakDown?.weightCost}</span>
             </div>
-            ` : ''}
+            `
+                : ""
+            }
 
             ${
-                costCalculation?.breakDown?.regionCost > 0
+              costCalculation?.breakDown?.regionCost > 0
                 ? `
                 <div class="flex justify-between items-center">
                     <span>Region Delivery:</span>
@@ -123,12 +143,29 @@ const SendParcel = () => {
            
 
             <hr class="my-3">
-            <div class="flex justify-between items-center text-lg font-bold">
+            <div class="flex justify-between items-center text-lg font-bold text-primary">
               <span>Total Cost:</span>
-              <span class="text-primary">৳${costCalculation.total}</span>
+              <span>৳${costCalculation.total}</span>
             </div>
         </div>
         `,
+    });
+  };
+
+  const confirmParcel = (data, total) => {
+    const parcelData = {
+      ...data,
+      total,
+      createdBy: user?.email,
+      creationDate: new Date().toISOString(),
+      status: "pending",
+      trackingId: `TRK-${Date.now()}`,
+    };
+    console.log("data ", parcelData);
+    Swal.fire({
+      title: "Successfully Added Parcel",
+      icon: "success",
+      draggable: true,
     });
   };
 
