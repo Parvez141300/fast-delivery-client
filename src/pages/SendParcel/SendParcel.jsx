@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import serviceBranches from "../../assets/service-branches/service-branches.json";
+import Swal from "sweetalert2";
 
 const uniqueRegions = Array.from(
   new Set(serviceBranches.map((sb) => sb.region))
@@ -56,32 +57,79 @@ const SendParcel = () => {
   //   calculate cost function
   const calculateCost = (data) => {
     let baseCost = 0;
+    let weightCost = 0;
+    let regionCost = 0;
     if (data?.parcelType === "document") {
       baseCost += 50;
     } else {
       baseCost += 80;
       if (parseInt(data?.weight) <= 1) {
-        baseCost += 20;
+        weightCost += 20;
       } else if (parseInt(data?.weight) <= 5) {
-        baseCost += 30;
+        weightCost += 30;
       } else {
-        baseCost *= parseInt(data?.weight);
+        weightCost = 20 * parseInt(data?.weight);
       }
     }
     if (data?.senderRegion === receiverRegion) {
-      baseCost += 50;
+      regionCost += 50;
     } else {
-      baseCost += 100;
+      regionCost += 100;
     }
-
-    return baseCost;
+    const totalCost = baseCost + weightCost + regionCost;
+    return {
+      total: totalCost,
+      breakDown: {
+        baseCost,
+        weightCost,
+        regionCost,
+      },
+    };
   };
 
   //   submit form
   const onSubmit = (data) => {
     const cost = calculateCost(data);
+    const costCalculation = calculateCost(data);
     data.cost = cost;
     console.log("form data", data);
+
+    // alert for showing the details of the delivery cost
+    Swal.fire({
+      title: "🎁 Delivery Cost Calculation",
+      html: `
+        <div className="space-y-5">
+            <div class="flex justify-between">
+              <span>Base Cost (${data.parcelType === 'document' ? 'Document' : 'Non-Document'}):</span>
+              <span class="font-semibold">৳${costCalculation?.breakDown?.baseCost}</span>
+            </div>
+            ${data.parcelType === 'non-document' ? `
+            <div class="flex justify-between">
+              <span>Weight Charge (${data.weight}kg):</span>
+              <span class="font-semibold">৳${costCalculation?.breakDown?.weightCost}</span>
+            </div>
+            ` : ''}
+
+            ${
+                costCalculation?.breakDown?.regionCost > 0
+                ? `
+                <div class="flex justify-between items-center">
+                    <span>Region Delivery:</span>
+                    <span class="font-semibold">৳${costCalculation?.breakDown?.regionCost}</span>
+                </div>
+                `
+                : ""
+            }
+           
+
+            <hr class="my-3">
+            <div class="flex justify-between items-center text-lg font-bold">
+              <span>Total Cost:</span>
+              <span class="text-primary">৳${costCalculation.total}</span>
+            </div>
+        </div>
+        `,
+    });
   };
 
   return (
