@@ -63,12 +63,12 @@ const SendParcel = () => {
       baseCost += 50;
     } else {
       baseCost += 80;
-      if (parseInt(data?.weight) <= 1) {
+      if (parseFloat(data?.weight) <= 1) {
         weightCost += 20;
-      } else if (parseInt(data?.weight) <= 5) {
+      } else if (parseFloat(data?.weight) <= 5) {
         weightCost += 30;
       } else {
-        weightCost = 20 * parseInt(data?.weight);
+        weightCost = 20 * parseFloat(data?.weight);
       }
     }
     if (data?.senderRegion === receiverRegion) {
