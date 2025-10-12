@@ -2,11 +2,13 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 const SocialLogin = () => {
   const { googleLogin, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || '/';
 
   const handleGoogleLogin = () => {
     googleLogin()
@@ -14,7 +16,7 @@ const SocialLogin = () => {
         toast.success(
           `Successfully Logged in user: ${result?.user?.displayName}`
         );
-        navigate("/");
+        navigate(from);
       })
       .catch((error) => {
         toast.error(error.message);
