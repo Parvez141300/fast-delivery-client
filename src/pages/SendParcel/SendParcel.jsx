@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import serviceBranches from "../../assets/service-branches/service-branches.json";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const uniqueRegions = Array.from(
   new Set(serviceBranches.map((sb) => sb.region))
@@ -12,6 +13,7 @@ const SendParcel = () => {
   const { user } = useAuth();
   const [senderServiceCenter, setSenderServiceCenter] = useState([]);
   const [receiverServiceCenter, setReceiverServiceCenter] = useState([]);
+  const axiosInstance = useAxios();
   //   react hook form
   const {
     register,
@@ -152,7 +154,7 @@ const SendParcel = () => {
     });
   };
 
-  const confirmParcel = (data, total) => {
+  const confirmParcel = (data, total) => {  
     const parcelData = {
       ...data,
       total,
@@ -161,6 +163,7 @@ const SendParcel = () => {
       status: "pending",
       trackingId: `TRK-${Date.now()}`,
     };
+    
     console.log("data ", parcelData);
     Swal.fire({
       title: "Successfully Added Parcel",
