@@ -53,7 +53,34 @@ const SendParcel = () => {
     }
   }, [receiverRegion]);
 
+  //   calculate cost function
+  const calculateCost = (data) => {
+    let baseCost = 0;
+    if (data?.parcelType === "document") {
+      baseCost += 50;
+    } else {
+      baseCost += 80;
+      if (parseInt(data?.weight) <= 1) {
+        baseCost += 20;
+      } else if (parseInt(data?.weight) <= 5) {
+        baseCost += 30;
+      } else {
+        baseCost *= parseInt(data?.weight);
+      }
+    }
+    if (data?.senderRegion === receiverRegion) {
+      baseCost += 50;
+    } else {
+      baseCost += 100;
+    }
+
+    return baseCost;
+  };
+
+  //   submit form
   const onSubmit = (data) => {
+    const cost = calculateCost(data);
+    data.cost = cost;
     console.log("form data", data);
   };
 
