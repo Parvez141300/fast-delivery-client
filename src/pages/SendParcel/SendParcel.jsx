@@ -60,7 +60,7 @@ const SendParcel = () => {
     let weightCost = 0;
     let regionCost = 0;
     if (data?.parcelType === "document") {
-      baseCost += 50;
+      baseCost += 60;
     } else {
       baseCost += 80;
       if (parseFloat(data?.weight) <= 1) {
@@ -72,9 +72,9 @@ const SendParcel = () => {
       }
     }
     if (data?.senderRegion === receiverRegion) {
-      regionCost += 50;
+      regionCost += 110;
     } else {
-      regionCost += 100;
+      regionCost += 150;
     }
     const totalCost = baseCost + weightCost + regionCost;
     return {
