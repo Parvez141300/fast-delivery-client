@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
@@ -10,6 +10,19 @@ import "react-tooltip/dist/react-tooltip.css";
 const NavBar = () => {
   const { user, logOut, loading, setLoading } = useAuth();
   const [showDropDown, setShowDropDown] = useState(false);
+  const profileMenuRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if(!profileMenuRef.current.contains(event.target)){
+        setShowDropDown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showDropDown])
+
   const navItems = (
     <>
       <li>
@@ -134,9 +147,10 @@ const NavBar = () => {
             <div className="relative">
               <div
                 onClick={() => setShowDropDown((prv) => !prv)}
-                className="avatar"
+                className="avatar cursor-pointer"
                 data-tooltip-id="user-info"
                 data-tooltip-content={user?.displayName}
+                ref={profileMenuRef}
               >
                 <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
                   <img
@@ -148,6 +162,7 @@ const NavBar = () => {
               </div>
             </div>
             <Tooltip id="user-info" />
+            {/* profile drop down sub menu */}
             {showDropDown && (
               <div className="bg-base-100 absolute -bottom-16 right-24 z-20 p-2 rounded-lg flex flex-col gap-3 shadow-lg">
                 <Link to={'/dashboard'}>Dashboard</Link>
