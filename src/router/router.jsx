@@ -9,6 +9,7 @@ import SendParcel from "../pages/SendParcel/SendParcel";
 import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 export const router = createBrowserRouter([
   // root layout
@@ -33,12 +34,12 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: '/about-us',
-        Component: AboutUs
+        path: "/about-us",
+        Component: AboutUs,
       },
       {
-        path: '/contact-us',
-        Component: ContactUs
+        path: "/contact-us",
+        Component: ContactUs,
       },
     ],
   },
@@ -56,5 +57,14 @@ export const router = createBrowserRouter([
         element: <Register />,
       },
     ],
+  },
+  // dashboard layout
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
   },
 ]);

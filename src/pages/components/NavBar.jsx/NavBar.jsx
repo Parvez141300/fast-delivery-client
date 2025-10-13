@@ -14,14 +14,14 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if(!profileMenuRef.current.contains(event.target)){
-        setShowDropDown(false)
+      if (!profileMenuRef.current.contains(event.target)) {
+        setShowDropDown(false);
       }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
+    };
+    document.addEventListener("mousedown", handleClickOutside);
 
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [showDropDown])
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showDropDown]);
 
   const navItems = (
     <>
@@ -144,13 +144,13 @@ const NavBar = () => {
           <span className="loading loading-spinner"></span>
         ) : user ? (
           <>
-            <div className="relative">
+            <div className="relative" ref={profileMenuRef}>
+              {/* user profile avatar image */}
               <div
                 onClick={() => setShowDropDown((prv) => !prv)}
                 className="avatar cursor-pointer"
                 data-tooltip-id="user-info"
                 data-tooltip-content={user?.displayName}
-                ref={profileMenuRef}
               >
                 <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
                   <img
@@ -160,29 +160,29 @@ const NavBar = () => {
                   />
                 </div>
               </div>
+              {/* profile drop down sub menu */}
+              {showDropDown && (
+                <div className="bg-base-100 absolute -bottom-24 right-0 z-20 p-4 rounded-lg flex flex-col gap-3 shadow-lg">
+                  <Link to={"/dashboard"}>Dashboard</Link>
+                  <button
+                    onClick={handleLogout}
+                    disabled={loading}
+                    to={"/login"}
+                    className="text-start cursor-pointer"
+                  >
+                    {loading ? (
+                      <>
+                        <span className="loading loading-spinner"></span>
+                        Logging Out
+                      </>
+                    ) : (
+                      <>Logout</>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
             <Tooltip id="user-info" />
-            {/* profile drop down sub menu */}
-            {showDropDown && (
-              <div className="bg-base-100 absolute -bottom-16 right-24 z-20 p-2 rounded-lg flex flex-col gap-3 shadow-lg">
-                <Link to={'/dashboard'}>Dashboard</Link>
-                <button
-                  onClick={handleLogout}
-                  disabled={loading}
-                  to={"/login"}
-                  className="text-start cursor-pointer"
-                >
-                  {loading ? (
-                    <>
-                      <span className="loading loading-spinner"></span>
-                      Logging Out
-                    </>
-                  ) : (
-                    <>Logout</>
-                  )}
-                </button>
-              </div>
-            )}
           </>
         ) : (
           <Link to={"/login"} className="btn btn-primary btn-outline">
