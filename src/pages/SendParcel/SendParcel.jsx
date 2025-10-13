@@ -155,6 +155,7 @@ const SendParcel = () => {
     });
   };
 
+  // confirm parcel to save to the mongodb database
   const confirmParcel = (data, total) => {
     const parcelData = {
       ...data,
