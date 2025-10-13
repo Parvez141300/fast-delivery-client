@@ -49,25 +49,25 @@ const AboutUs = () => {
       {
         name: "Parvez Hossain Alif",
         position: "CEO & Founder",
-        image: "👨‍💼",
+        image: "https://i.ibb.co.com/0y2MLK8X/my-passport-pic-93kb.jpg",
         description: "10+ years in logistics and supply chain management",
       },
       {
         name: "Ayesha Siddik",
         position: "COO",
-        image: "👩‍💼",
+        image: "https://i.ibb.co.com/84451f1W/fotos-H9lg5-Noj660-unsplash.jpg",
         description: "Operations expert with background in e-commerce",
       },
       {
         name: "Abu Sayed",
         position: "CTO",
-        image: "👨‍💻",
+        image: "https://i.ibb.co.com/0y2MLK8X/my-passport-pic-93kb.jpg",
         description: "Tech enthusiast driving innovation in delivery solutions",
       },
       {
         name: "Sufian Al Mahadi",
         position: "Customer Service Head",
-        image: "👨‍💻",
+        image: "https://i.ibb.co.com/0y2MLK8X/my-passport-pic-93kb.jpg",
         description: "Dedicated to ensuring exceptional customer experiences",
       },
     ],
@@ -181,7 +181,9 @@ const AboutUs = () => {
             {aboutContent.team.map((member, index) => (
               <div key={index} className="card bg-base-100 shadow-lg">
                 <div className="card-body text-center">
-                  <div className="text-6xl mb-4">{member.image}</div>
+                  <div className="flex justify-center">
+                  <img src={member?.image} alt={member?.name} className="w-32 h-36 rounded-lg object-cover" />
+                  </div>
                   <h3 className="card-title justify-center text-lg">
                     {member.name}
                   </h3>
