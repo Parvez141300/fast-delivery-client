@@ -4,6 +4,7 @@ import serviceBranches from "../../assets/service-branches/service-branches.json
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import { toast } from "react-toastify";
 
 const uniqueRegions = Array.from(
   new Set(serviceBranches.map((sb) => sb.region))
@@ -154,7 +155,7 @@ const SendParcel = () => {
     });
   };
 
-  const confirmParcel = (data, total) => {  
+  const confirmParcel = (data, total) => {
     const parcelData = {
       ...data,
       total,
@@ -163,12 +164,15 @@ const SendParcel = () => {
       status: "pending",
       trackingId: `TRK-${Date.now()}`,
     };
-    
-    console.log("data ", parcelData);
-    Swal.fire({
-      title: "Successfully Added Parcel",
-      icon: "success",
-      draggable: true,
+    axiosInstance.post("/parcels", parcelData).then((res) => {
+      if (res.data.insertedId) {
+        console.log("data ", parcelData);
+        Swal.fire({
+          title: "Successfully Added Parcel",
+          icon: "success",
+          draggable: true,
+        });
+      }
     });
   };
 

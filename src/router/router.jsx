@@ -24,7 +24,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/send-parcel",
-        element: <SendParcel />,
+        element: (
+          <PrivateRoute>
+            <SendParcel />
+          </PrivateRoute>
+        ),
       },
     ],
   },

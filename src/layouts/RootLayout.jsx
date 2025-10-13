@@ -5,13 +5,13 @@ import Footer from "../pages/components/Footer/Footer";
 
 const RootLayout = () => {
   return (
-    <div>
+    <div className="relative">
       {/* navbar */}
-      <nav className="bg-base-200 shadow-sm">
+      <nav className="shadow-sm z-50 fixed top-0 w-full backdrop-blur-xs">
         <NavBar></NavBar>
       </nav>
       {/* for routing purpose */}
-      <main className="w-11/12 md:w-10/12 md:max-w-7xl mx-auto my-6 min-h-[calc(100vh-64px)]">
+      <main className="w-11/12 md:w-10/12 md:max-w-7xl mx-auto my-8 mt-20 min-h-[calc(100vh-64px)]">
         <Outlet></Outlet>
       </main>
       {/* footer */}

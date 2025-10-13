@@ -16,7 +16,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   console.log('user currnet', user);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // register user
   const createUser = (email, password) => {

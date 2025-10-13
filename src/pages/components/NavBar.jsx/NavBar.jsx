@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router";
 import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
@@ -9,6 +9,7 @@ import "react-tooltip/dist/react-tooltip.css";
 
 const NavBar = () => {
   const { user, logOut, loading, setLoading } = useAuth();
+  const [showDropDown, setShowDropDown] = useState(false);
   const navItems = (
     <>
       <li>
@@ -31,6 +32,18 @@ const NavBar = () => {
           Services
         </NavLink>
       </li>
+      {user && (
+        <li>
+          <NavLink
+            to={"/send-parcel"}
+            className={({ isActive }) =>
+              isActive ? "nav-link active-link" : "nav-link"
+            }
+          >
+            Send Parcel
+          </NavLink>
+        </li>
+      )}
       <li>
         <NavLink
           to={"/coverage"}
@@ -114,37 +127,47 @@ const NavBar = () => {
       <div className="navbar-end gap-2">
         {/* theme toggle light to dark or dark to light */}
         <ThemeToggle />
-        {user ? (
+        {loading ? (
+          <span className="loading loading-spinner"></span>
+        ) : user ? (
           <>
-            <div
-              className="avatar"
-              data-tooltip-id="user-info"
-              data-tooltip-content={user?.displayName}
-            >
-              <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
-                <img
-                  src={user?.photoURL}
-                  alt={user?.displayName}
-                  className="object-cover"
-                />
+            <div className="relative">
+              <div
+                onClick={() => setShowDropDown((prv) => !prv)}
+                className="avatar"
+                data-tooltip-id="user-info"
+                data-tooltip-content={user?.displayName}
+              >
+                <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
+                  <img
+                    src={user?.photoURL}
+                    alt={user?.displayName}
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
             <Tooltip id="user-info" />
-            <button
-              onClick={handleLogout}
-              disabled={loading}
-              to={"/login"}
-              className="btn btn-primary btn-outline"
-            >
-              {loading ? (
-                <>
-                  <span className="loading loading-spinner"></span>
-                  Logging Out
-                </>
-              ) : (
-                <>Logout</>
-              )}
-            </button>
+            {showDropDown && (
+              <div className="bg-base-100 absolute -bottom-16 right-24 z-20 p-2 rounded-lg flex flex-col gap-3 shadow-lg">
+                <Link to={'/dashboard'}>Dashboard</Link>
+                <button
+                  onClick={handleLogout}
+                  disabled={loading}
+                  to={"/login"}
+                  className="text-start cursor-pointer"
+                >
+                  {loading ? (
+                    <>
+                      <span className="loading loading-spinner"></span>
+                      Logging Out
+                    </>
+                  ) : (
+                    <>Logout</>
+                  )}
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <Link to={"/login"} className="btn btn-primary btn-outline">
