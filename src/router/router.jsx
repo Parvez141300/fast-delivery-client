@@ -8,6 +8,7 @@ import Coverage from "../pages/Coverage/Coverage";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import ContactUs from "../pages/ContactUs/ContactUs";
 
 export const router = createBrowserRouter([
   // root layout
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: '/about-us',
         Component: AboutUs
+      },
+      {
+        path: '/contact-us',
+        Component: ContactUs
       },
     ],
   },
