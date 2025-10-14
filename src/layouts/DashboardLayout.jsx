@@ -29,56 +29,48 @@ const DashboardLayout = () => {
       name: "Dashboard",
       icon: <FaTachometerAlt className="text-lg" />,
       path: "/dashboard",
-      badge: null,
     },
     {
       id: 2,
       name: "My Parcels",
       icon: <FaBox className="text-lg" />,
       path: "/dashboard/my-parcels",
-      badge: "12",
     },
     {
       id: 3,
       name: "Delivery",
       icon: <FaShippingFast className="text-lg" />,
       path: "/dashboard/delivery",
-      badge: "3",
     },
     {
       id: 4,
       name: "Customers",
       icon: <FaUser className="text-lg" />,
       path: "/dashboard/customers",
-      badge: null,
     },
     {
       id: 5,
       name: "Payments",
       icon: <FaMoneyBill className="text-lg" />,
       path: "/dashboard/payments",
-      badge: "5",
     },
     {
       id: 6,
       name: "Analytics",
       icon: <FaChartBar className="text-lg" />,
       path: "/dashboard/analytics",
-      badge: null,
     },
     {
       id: 7,
       name: "Settings",
       icon: <FaCog className="text-lg" />,
       path: "/dashboard/settings",
-      badge: null,
     },
     {
       id: 8,
       name: "Help & Support",
       icon: <FaQuestionCircle className="text-lg" />,
       path: "/dashboard/support",
-      badge: null,
     },
   ];
 
@@ -143,11 +135,6 @@ const DashboardLayout = () => {
                 >
                   <span className="mr-3">{link.icon}</span>
                   <span className="flex-1">{link.name}</span>
-                  {link.badge && (
-                    <span className="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                      {link.badge}
-                    </span>
-                  )}
                 </Link>
               ))}
             </nav>
@@ -173,12 +160,12 @@ const DashboardLayout = () => {
           </div>
         </div>
         {/* Main Content */}
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full px-5">
           {/* Desktop Header */}
           <header className="hidden lg:flex bg-base-200 shadow-sm">
             <div className="flex-1 flex justify-between items-center px-8 py-4">
               <div>
-                <h1 className="text-xl font-bold text-gray-800">
+                <h1 className="text-xl font-bold">
                   Dashboard Overview
                 </h1>
                 <p>Welcome back, {user?.displayName}! 👋</p>
@@ -236,14 +223,11 @@ const DashboardLayout = () => {
             </div>
           </header>
           {/* Page Content */}
-          <main className="overflow-y-auto p-4 lg:p-8">
-            <div className="max-w-7xl mx-auto">
-              {/* This is where the page content will be rendered */}
-              <Outlet />
-
+          <main className="overflow-y-auto lg:py-5">
+            <div className="max-w-7xl mx-auto space-y-5">
               {/* Sample content for demonstration */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div className="stat bg-white shadow-lg rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="stat bg-base-300 shadow-lg rounded-lg">
                   <div className="stat-figure text-primary">
                     <FaBox className="text-3xl" />
                   </div>
@@ -252,7 +236,7 @@ const DashboardLayout = () => {
                   <div className="stat-desc">↗︎ 12% from last month</div>
                 </div>
 
-                <div className="stat bg-white shadow-lg rounded-lg">
+                <div className="stat bg-base-300 shadow-lg rounded-lg">
                   <div className="stat-figure text-secondary">
                     <FaShippingFast className="text-3xl" />
                   </div>
@@ -261,7 +245,7 @@ const DashboardLayout = () => {
                   <div className="stat-desc">↗︎ 8% from yesterday</div>
                 </div>
 
-                <div className="stat bg-white shadow-lg rounded-lg">
+                <div className="stat bg-base-300 shadow-lg rounded-lg">
                   <div className="stat-figure text-accent">
                     <FaMoneyBill className="text-3xl" />
                   </div>
@@ -270,6 +254,8 @@ const DashboardLayout = () => {
                   <div className="stat-desc">↗︎ 15% from last month</div>
                 </div>
               </div>
+              {/* This is where the page content will be rendered */}
+              <Outlet />
             </div>
           </main>
         </div>
