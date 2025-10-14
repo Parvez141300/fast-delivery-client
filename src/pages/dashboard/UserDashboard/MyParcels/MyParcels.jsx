@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
@@ -10,11 +10,40 @@ import Swal from "sweetalert2";
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
+
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["my-parcels", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels/user?email=${user?.email}`);
       return res.data;
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (parcelId) => {
+      const res = await axiosSecure.delete(`/parcels/${parcelId}`);
+      return res.data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["my-parcels", user?.email],
+      });
+      Swal.fire({
+        title: "Deleted!",
+        text: "Parcel has been deleted successfully.",
+        icon: "success",
+        confirmButtonColor: "#10b981",
+        timer: 2000,
+      });
+    },
+    onError: (error) => {
+      Swal.fire({
+        title: error.message,
+        text: "Failed to delete parcel. Please try again.",
+        icon: "error",
+        confirmButtonColor: "#ef4444",
+      });
     },
   });
 
@@ -145,6 +174,31 @@ const MyParcels = () => {
         popup: "rounded-lg",
         closeButton: "text-gray-400 hover:text-gray-600 text-xl",
       },
+    });
+  };
+
+  //   handle delete the parcel
+  const handleDelete = (parcel) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You want to delete the parcel "${parcel.title}"? This action cannot be undone.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      customClass: {
+        popup: "rounded-lg",
+        confirmButton: "btn btn-error",
+        cancelButton: "btn btn-ghost",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutation.mutate(parcel._id);
+      }
     });
   };
 
@@ -299,6 +353,7 @@ const MyParcels = () => {
                   <td className="py-4 px-6">
                     <StatusBadge status={parcel.status} />
                   </td>
+                  {/* actions */}
                   <td className="py-4 px-6">
                     <div className="join join-vertical gap-2">
                       <button
@@ -316,6 +371,7 @@ const MyParcels = () => {
                       </button>
                       {parcel.status === "pending" && (
                         <button
+                          onClick={() => handleDelete(parcel)}
                           className="btn btn-sm btn-outline btn-error tooltip"
                           data-tip="Delete"
                         >
@@ -328,23 +384,6 @@ const MyParcels = () => {
                 </tr>
               ))}
             </tbody>
-            {/* Table Footer */}
-            <tfoot>
-              {parcels.length > 0 && (
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
-                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-sm text-gray-600">
-                    <div>
-                      Showing{" "}
-                      <span className="font-semibold">{parcels.length}</span>{" "}
-                      parcel{parcels.length !== 1 ? "s" : ""}
-                    </div>
-                    <div className="mt-2 lg:mt-0">
-                      Last updated: {new Date().toLocaleTimeString()}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </tfoot>
           </table>
         </div>
       )}
