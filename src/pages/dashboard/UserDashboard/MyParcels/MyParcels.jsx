@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
-import { FaBox, FaEye, FaTimesCircle } from "react-icons/fa";
+import { FaBox, FaEye, FaMoneyBill, FaTimesCircle } from "react-icons/fa";
 import StatusBadge from "../shared/StatusBadge";
+import Swal from "sweetalert2";
 
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
@@ -16,6 +17,136 @@ const MyParcels = () => {
       return res.data;
     },
   });
+
+  // Handle view details with SweetAlert2
+  const handleViewDetails = (parcel) => {
+    Swal.fire({
+      title: `<strong>Parcel Details - ${parcel.trackingId}</strong>`,
+      html: `
+            <div class="text-left space-y-4">
+              <!-- Header Info -->
+              <div class="grid grid-cols-2 gap-4 p-3 bg-blue-50 rounded-lg">
+                <div>
+                  <div class="font-semibold text-sm text-gray-600">Tracking ID</div>
+                  <div class="font-mono font-bold text-blue-600">${
+                    parcel.trackingId
+                  }</div>
+                </div>
+                <div>
+                  <div class="font-semibold text-sm text-gray-600">Created Date</div>
+                  <div class="text-gray-700">${new Date(
+                    parcel.creationDate
+                  ).toLocaleDateString()}</div>
+                </div>
+              </div>
+    
+              <!-- Parcel Information -->
+              <div class="border rounded-lg p-3">
+                <div class="font-semibold text-lg text-gray-800 mb-2 flex items-center gap-2">
+                  <i class="fas fa-box text-blue-500"></i>
+                  Parcel Information
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-sm">
+                  <div class="font-medium">Title:</div>
+                  <div class="capitalize">${parcel.title}</div>
+                  
+                  <div class="font-medium">Type:</div>
+                  <div class="capitalize">${parcel.parcelType}</div>
+                  
+                  ${
+                    parcel.parcelType === "non-document"
+                      ? `
+                    <div class="font-medium">Weight:</div>
+                    <div>${parcel.weight} kg</div>
+                  `
+                      : ""
+                  }
+                  
+                  <div class="font-medium">Total Cost:</div>
+                  <div class="font-bold text-green-600">৳${parcel.total}</div>
+                </div>
+              </div>
+    
+              <!-- Sender & Receiver Info -->
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Sender Information -->
+                <div class="border rounded-lg p-3">
+                  <div class="font-semibold text-md text-gray-800 mb-2 flex items-center gap-2">
+                    <i class="fas fa-user text-green-500"></i>
+                    Sender
+                  </div>
+                  <div class="space-y-1 text-sm">
+                    <div><strong>Name:</strong> ${parcel.senderName}</div>
+                    <div><strong>Contact:</strong> ${parcel.senderContact}</div>
+                    <div><strong>Region:</strong> ${parcel.senderRegion}</div>
+                    <div><strong>Service Center:</strong> ${
+                      parcel.senderServiceDistrictCenter
+                    }</div>
+                    <div><strong>Address:</strong> ${parcel.senderAddress}</div>
+                  </div>
+                </div>
+    
+                <!-- Receiver Information -->
+                <div class="border rounded-lg p-3">
+                  <div class="font-semibold text-md text-gray-800 mb-2 flex items-center gap-2">
+                    <i class="fas fa-user text-red-500"></i>
+                    Receiver
+                  </div>
+                  <div class="space-y-1 text-sm">
+                    <div><strong>Name:</strong> ${parcel.receiverName}</div>
+                    <div><strong>Contact:</strong> ${
+                      parcel.receiverContact
+                    }</div>
+                    <div><strong>Region:</strong> ${parcel.receiverRegion}</div>
+                    <div><strong>Service Center:</strong> ${
+                      parcel.receiverServiceDistrictCenter
+                    }</div>
+                    <div><strong>Address:</strong> ${
+                      parcel.receiverAddress
+                    }</div>
+                  </div>
+                </div>
+              </div>
+    
+              <!-- Status Information -->
+              <div class="border rounded-lg p-3">
+                <div class="font-semibold text-lg text-gray-800 mb-2 flex items-center gap-2">
+                  <i class="fas fa-shipping-fast text-purple-500"></i>
+                  Delivery Status
+                </div>
+                <div class="flex justify-between items-center">
+                  <div class="font-medium">Status:</div>
+                  <div class="px-3 py-1 rounded-full text-white ${
+                    parcel.status === "pending"
+                      ? "bg-yellow-500"
+                      : parcel.status === "in-transit"
+                      ? "bg-blue-500"
+                      : parcel.status === "delivered"
+                      ? "bg-green-500"
+                      : "bg-red-500"
+                  }">
+                    ${
+                      parcel.status.charAt(0).toUpperCase() +
+                      parcel.status.slice(1)
+                    }
+                  </div>
+                </div>
+                <div class="mt-2 text-sm">
+                  <strong>Created By:</strong> ${parcel.createdBy}
+                </div>
+              </div>
+            </div>
+          `,
+      width: 800,
+      padding: "2rem",
+      showCloseButton: true,
+      showConfirmButton: false,
+      customClass: {
+        popup: "rounded-lg",
+        closeButton: "text-gray-400 hover:text-gray-600 text-xl",
+      },
+    });
+  };
 
   // loading state
   if (isPending) {
@@ -169,18 +300,26 @@ const MyParcels = () => {
                     <StatusBadge status={parcel.status} />
                   </td>
                   <td className="py-4 px-6">
-                    <div className="flex space-x-2">
+                    <div className="join join-vertical gap-2">
                       <button
+                        onClick={() => handleViewDetails(parcel)}
                         className="btn btn-sm btn-outline btn-primary tooltip"
                         data-tip="View Details"
                       >
-                        <FaEye />
+                        View <FaEye />
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline btn-primary tooltip"
+                        data-tip="Pay"
+                      >
+                        Pay <FaMoneyBill />
                       </button>
                       {parcel.status === "pending" && (
                         <button
                           className="btn btn-sm btn-outline btn-error tooltip"
-                          data-tip="Cancel"
+                          data-tip="Delete"
                         >
+                          Delete
                           <FaTimesCircle />
                         </button>
                       )}
