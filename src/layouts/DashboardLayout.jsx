@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 import {
   FaTachometerAlt,
   FaBox,
@@ -11,6 +11,7 @@ import {
   FaQuestionCircle,
   FaBars,
   FaTimes,
+  FaBell,
 } from "react-icons/fa";
 import useAuth from "../hooks/useAuth";
 import ThemeToggle from "../pages/components/ThemeToggle/ThemeToggle";
@@ -32,9 +33,9 @@ const DashboardLayout = () => {
     },
     {
       id: 2,
-      name: "Parcels",
+      name: "My Parcels",
       icon: <FaBox className="text-lg" />,
-      path: "/dashboard/parcels",
+      path: "/dashboard/my-parcels",
       badge: "12",
     },
     {
@@ -113,15 +114,16 @@ const DashboardLayout = () => {
         </div>
       </div>
 
-      {/* Sidebar - Desktop */}
-      <div className="flex">
+      {/* Sidebar - Desktop & main content */}
+      <div className="flex items-start gap-5">
+        {/* sidebar */}
         <div
-          className={`hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 bg-base-200 shadow-lg ${
+          className={`hidden lg:flex lg:w-64 lg:flex-col lg:inset-y-0 bg-base-200 shadow-lg ${
             isSidebarOpen ? "flex" : "hidden"
           }`}
         >
           {/* Sidebar component */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col min-h-screen">
             {/* Logo */}
             <div className="flex items-center justify-center h-16 flex-shrink-0 px-4 bg-primary text-white">
               <FastDeliveryLogo />
@@ -130,9 +132,9 @@ const DashboardLayout = () => {
             {/* Navigation */}
             <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
               {navigationLinks.map((link) => (
-                <a
+                <Link
                   key={link.id}
-                  href={link.path}
+                  to={link.path}
                   className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
                     link.id === 1
                       ? "bg-primary text-white shadow-md"
@@ -146,7 +148,7 @@ const DashboardLayout = () => {
                       {link.badge}
                     </span>
                   )}
-                </a>
+                </Link>
               ))}
             </nav>
 
@@ -166,10 +168,110 @@ const DashboardLayout = () => {
                     <p className="text-xs font-medium text-gray-500">Admin</p>
                   </div>
                 </div>
-                {themeControl}
               </div>
             </div>
           </div>
+        </div>
+        {/* Main Content */}
+        <div className="flex flex-col w-full">
+          {/* Desktop Header */}
+          <header className="hidden lg:flex bg-base-200 shadow-sm">
+            <div className="flex-1 flex justify-between items-center px-8 py-4">
+              <div>
+                <h1 className="text-xl font-bold text-gray-800">
+                  Dashboard Overview
+                </h1>
+                <p>Welcome back, {user?.displayName}! 👋</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                {/* notification with dropdown */}
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} className="btn btn-ghost btn-circle">
+                    <div className="indicator">
+                      <FaBell size={20} />
+                      <span className="badge badge-xs badge-primary indicator-item">
+                        3
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    tabIndex={0}
+                    className="mt-3 card card-compact dropdown-content w-52 bg-base-100 shadow"
+                  >
+                    <div className="card-body">
+                      <span className="font-bold text-lg">3 Notifications</span>
+                      <div className="card-actions">
+                        <button className="btn btn-primary btn-block btn-sm">
+                          View all
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* theme controller */}
+                {themeControl}
+                {/* profile dropdown */}
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                    <div className="w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                      <img src={user?.photoURL} alt={user?.displayName} />
+                    </div>
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <a>Profile</a>
+                    </li>
+                    <li>
+                      <a>Settings</a>
+                    </li>
+                    <li>
+                      <a>Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </header>
+          {/* Page Content */}
+          <main className="overflow-y-auto p-4 lg:p-8">
+            <div className="max-w-7xl mx-auto">
+              {/* This is where the page content will be rendered */}
+              <Outlet />
+
+              {/* Sample content for demonstration */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="stat bg-white shadow-lg rounded-lg">
+                  <div className="stat-figure text-primary">
+                    <FaBox className="text-3xl" />
+                  </div>
+                  <div className="stat-title">Total Parcels</div>
+                  <div className="stat-value text-primary">1,248</div>
+                  <div className="stat-desc">↗︎ 12% from last month</div>
+                </div>
+
+                <div className="stat bg-white shadow-lg rounded-lg">
+                  <div className="stat-figure text-secondary">
+                    <FaShippingFast className="text-3xl" />
+                  </div>
+                  <div className="stat-title">In Transit</div>
+                  <div className="stat-value text-secondary">42</div>
+                  <div className="stat-desc">↗︎ 8% from yesterday</div>
+                </div>
+
+                <div className="stat bg-white shadow-lg rounded-lg">
+                  <div className="stat-figure text-accent">
+                    <FaMoneyBill className="text-3xl" />
+                  </div>
+                  <div className="stat-title">Revenue</div>
+                  <div className="stat-value text-accent">৳ 1.2M</div>
+                  <div className="stat-desc">↗︎ 15% from last month</div>
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
 

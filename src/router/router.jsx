@@ -10,6 +10,7 @@ import PrivateRoute from "../PrivateRoutes/PrivateRoute";
 import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcels from "../pages/dashboard/UserDashboard/MyParcels/MyParcels";
 
 export const router = createBrowserRouter([
   // root layout
@@ -66,5 +67,11 @@ export const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoute>
     ),
+    children: [
+      {
+        path: 'my-parcels',
+        Component: MyParcels
+      },
+    ]
   },
 ]);
