@@ -173,6 +173,7 @@ const SendParcel = () => {
           icon: "success",
           draggable: true,
         });
+        reset();
       }
     });
   };
