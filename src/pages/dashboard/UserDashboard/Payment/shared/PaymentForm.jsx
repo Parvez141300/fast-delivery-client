@@ -2,7 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React from "react";
 import { toast } from "react-toastify";
 
-const PaymentForm = () => {
+const PaymentForm = ({parcelData}) => {
   const stripe = useStripe();
   const elements = useElements();
 
