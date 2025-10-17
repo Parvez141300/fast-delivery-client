@@ -181,7 +181,6 @@ const MyParcels = () => {
 
   // payment of the product
   const handlePayment = (parcelId) => {
-    console.log('parcelId of payment', parcelId);
     navigate(`/dashboard/payment/${parcelId}`)
   }
 

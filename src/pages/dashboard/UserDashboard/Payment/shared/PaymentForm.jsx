@@ -1,0 +1,49 @@
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import React from "react";
+import { toast } from "react-toastify";
+
+const PaymentForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    const card = elements.getElement(CardElement);
+
+    if (card == null) {
+      return;
+    }
+
+    // Use your card Element with other Stripe.js APIs
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card,
+    });
+
+    if (error) {
+      console.log("[error]", error);
+      toast.error(error?.message);
+    } else {
+      console.log("[PaymentMethod]", paymentMethod);
+    }
+  };
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-5 w-full max-w-md bg-base-300 p-5 rounded-lg shadow-md"
+    >
+      <CardElement className="p-3 border rounded" />
+      <button type="submit" disabled={!stripe} className="btn btn-primary">
+        Pay
+      </button>
+    </form>
+  );
+};
+
+export default PaymentForm;
