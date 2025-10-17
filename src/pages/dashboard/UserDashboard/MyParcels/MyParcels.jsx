@@ -6,11 +6,13 @@ import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { FaBox, FaEye, FaMoneyBill, FaTimesCircle } from "react-icons/fa";
 import StatusBadge from "../shared/StatusBadge";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 
 const MyParcels = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["my-parcels", user?.email],
@@ -176,6 +178,12 @@ const MyParcels = () => {
       },
     });
   };
+
+  // payment of the product
+  const handlePayment = (parcelId) => {
+    console.log('parcelId of payment', parcelId);
+    navigate(`/dashboard/payment/${parcelId}`)
+  }
 
   //   handle delete the parcel
   const handleDelete = (parcel) => {
@@ -364,6 +372,7 @@ const MyParcels = () => {
                         View <FaEye />
                       </button>
                       <button
+                      onClick={() => handlePayment(parcel?._id)}
                         className="btn btn-sm btn-outline btn-primary tooltip"
                         data-tip="Pay"
                       >

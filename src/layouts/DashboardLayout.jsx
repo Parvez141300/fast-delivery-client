@@ -52,7 +52,7 @@ const DashboardLayout = () => {
       id: 5,
       name: "Payments",
       icon: <FaMoneyBill className="text-lg" />,
-      path: "/dashboard/payments",
+      path: "/dashboard/payment",
     },
     {
       id: 6,

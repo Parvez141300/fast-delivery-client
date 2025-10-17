@@ -32,7 +32,7 @@ const StatusBadge = ({ status }) => {
   const config = statusConfig[status] || statusConfig.pending;
   return (
     <div
-      className={`badge ${config.color} badge-lg gap-1 text-white font-semibold`}
+      className={`badge ${config.color} gap-1 text-white font-semibold`}
     >
       {config.icon}
       {config.text}

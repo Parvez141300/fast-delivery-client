@@ -64,6 +64,13 @@ const Coverage = () => {
 
   return (
     <div>
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Coverage Area</h1>
+        <p className="text-gray-600 mt-2">
+          Fast and reliable door-to-door delivery service
+        </p>
+      </div>
       <form onSubmit={handleSearch} className="p-4 flex justify-center gap-2">
         <input
           type="text"
@@ -104,8 +111,8 @@ const Coverage = () => {
             <Popup>
               <strong>Region:</strong> {district.region} <br />
               <strong>District:</strong> {district.district} <br />
-              <strong>Covered Areas:</strong>{" "}
-              {district.covered_area.join(", ")} <br />
+              <strong>Covered Areas:</strong> {district.covered_area.join(", ")}{" "}
+              <br />
               <img
                 src={district.flowchart}
                 alt="Flowchart"
