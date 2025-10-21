@@ -5,11 +5,12 @@ const PaymentMethods = ({ parcelData }) => {
   const [selectedMethod, setSelectedMethod] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
+
   const paymentMethods = [
-    { id: "bkash", label: "bKash payment" },
-    { id: "manual-bkash", label: "Manual bKash" },
     { id: "ssl", label: "SSLCOMMERZ" },
     { id: "stripe", label: "stripe" },
+    { id: "bkash", label: "bKash payment" },
+    { id: "manual-bkash", label: "Manual bKash" },
     { id: "lift", label: "LIFT" },
   ];
 
@@ -23,7 +24,17 @@ const PaymentMethods = ({ parcelData }) => {
       return;
     }
     // Handle payment processing here
-    toast(`Proceeding with payment method: ${selectedMethod}`);
+    if (selectedMethod === "stripe") {
+      toast(`Proceeding with payment method: ${selectedMethod}`);
+      return;
+    }
+    if (selectedMethod === "ssl") {
+      toast(`Proceeding with payment method: ${selectedMethod}`);
+      return;
+    } else {
+      toast(`current this payment methods are not available ${selectedMethod}`);
+      return;
+    }
   };
 
   return (
@@ -74,9 +85,7 @@ const PaymentMethods = ({ parcelData }) => {
 
       {/* Course Info */}
       <div className="bg-primary/20 rounded-lg p-4 mb-6">
-        <div className="text-sm  mb-1">
-          Fast Delivery alongside with us
-        </div>
+        <div className="text-sm  mb-1">Fast Delivery alongside with us</div>
         <div className="text-2xl font-bold text-primary">
           ৳ {parcelData?.amount}
         </div>

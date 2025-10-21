@@ -70,13 +70,13 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        path: 'my-parcels',
-        Component: MyParcels
+        path: "my-parcels",
+        Component: MyParcels,
       },
       {
-        path: 'payment/:parcelId',
-        Component: Payment
+        path: "payment/:parcelId",
+        Component: Payment,
       },
-    ]
+    ],
   },
 ]);
