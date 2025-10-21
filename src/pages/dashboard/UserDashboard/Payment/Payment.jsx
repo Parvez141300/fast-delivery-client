@@ -14,6 +14,7 @@ import {
   FaWeightHanging,
   FaIdCard,
 } from "react-icons/fa";
+import PaymentMethods from "./shared/PaymentMethods";
 
 const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 const Payment = () => {
@@ -37,8 +38,7 @@ const Payment = () => {
           Make payment for your parcel delivery
         </p>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Left Column - Parcel Information */}
         <div className="space-y-6">
           {/* Order Summary Card */}
@@ -82,7 +82,7 @@ const Payment = () => {
                   Total Amount
                 </span>
                 <span className="text-2xl font-bold text-primary">
-                  ৳{parcelData?.total}
+                  ৳{parcelData?.amount}
                 </span>
               </div>
             </div>
@@ -170,7 +170,11 @@ const Payment = () => {
             </div>
           </div>
         </div>
+        {/* right column - Payment Methods */}
+        <PaymentMethods parcelData={parcelData} />
+      </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 my-12">
         {/* Right Column - Payment Form */}
         <div className="bg-base-300 rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Payment Information</h2>
