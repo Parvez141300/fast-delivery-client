@@ -156,10 +156,10 @@ const SendParcel = () => {
   };
 
   // confirm parcel to save to the mongodb database
-  const confirmParcel = (data, total) => {
+  const confirmParcel = (data, amount) => {
     const parcelData = {
       ...data,
-      total,
+      amount,
       createdBy: user?.email,
       creationDate: new Date().toISOString(),
       status: "pending",

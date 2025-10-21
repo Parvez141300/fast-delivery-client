@@ -5,7 +5,6 @@ import PaymentForm from "./shared/PaymentForm";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
-import useAuth from "../../../../hooks/useAuth";
 import {
   FaBox,
   FaShippingFast,
@@ -20,10 +19,9 @@ const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 const Payment = () => {
   const { parcelId } = useParams();
   const axiosSecure = useAxiosSecure();
-  const { user } = useAuth();
 
   const { data: parcelData } = useQuery({
-    queryKey: ["single-parcel", user?.email],
+    queryKey: ["single-parcel", parcelId],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels/${parcelId}`);
       return res.data;
@@ -182,7 +180,7 @@ const Payment = () => {
             <div className="flex justify-between items-center">
               <span className="text-lg font-semibold">Total Payment</span>
               <span className="text-2xl font-bold text-primary">
-                ৳{parcelData?.total}
+                ৳{parcelData?.amount}
               </span>
             </div>
           </div>
