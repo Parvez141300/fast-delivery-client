@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
 const PaymentMethods = ({ parcelData }) => {
   const [selectedMethod, setSelectedMethod] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-
+  const navigate = useNavigate();
 
   const paymentMethods = [
     { id: "ssl", label: "SSLCOMMERZ" },
@@ -26,6 +27,7 @@ const PaymentMethods = ({ parcelData }) => {
     // Handle payment processing here
     if (selectedMethod === "stripe") {
       toast(`Proceeding with payment method: ${selectedMethod}`);
+      navigate(`/dashboard/stripe-payment/${parcelData?._id}`);
       return;
     }
     if (selectedMethod === "ssl") {

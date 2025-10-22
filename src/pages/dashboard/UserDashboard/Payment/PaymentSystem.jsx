@@ -1,11 +1,19 @@
 import React from "react";
-import { Outlet, useParams } from "react-router";
-import useAxiosSecure from "../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { FaBox, FaMapMarkerAlt, FaShippingFast, FaUser } from "react-icons/fa";
-import PaymentMethods from "../pages/dashboard/UserDashboard/Payment/shared/PaymentMethods";
+import { useParams } from "react-router";
+import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import {
+  FaBox,
+  FaShippingFast,
+  FaUser,
+  FaMapMarkerAlt,
+  FaMoneyBill,
+  FaWeightHanging,
+  FaIdCard,
+} from "react-icons/fa";
+import PaymentMethods from "./shared/PaymentMethods";
 
-const PaymentLayout = () => {
+const PaymentSystem = () => {
   const { parcelId } = useParams();
   const axiosSecure = useAxiosSecure();
 
@@ -16,6 +24,7 @@ const PaymentLayout = () => {
       return res.data;
     },
   });
+
   return (
     <div>
       {/* Header */}
@@ -159,13 +168,9 @@ const PaymentLayout = () => {
         </div>
         {/* right column - Payment Methods */}
         <PaymentMethods parcelData={parcelData} />
-
-        <div>
-            <Outlet></Outlet>
-        </div>
       </div>
     </div>
   );
 };
 
-export default PaymentLayout;
+export default PaymentSystem;

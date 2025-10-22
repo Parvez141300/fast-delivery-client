@@ -11,7 +11,8 @@ import AboutUs from "../pages/AboutUs/AboutUs";
 import ContactUs from "../pages/ContactUs/ContactUs";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/dashboard/UserDashboard/MyParcels/MyParcels";
-import Payment from "../pages/dashboard/UserDashboard/Payment/Payment";
+import PaymentSystem from "../pages/dashboard/UserDashboard/Payment/PaymentSystem";
+import StripePayment from "../pages/dashboard/UserDashboard/Payment/StripePayment/StripePayment";
 
 export const router = createBrowserRouter([
   // root layout
@@ -75,7 +76,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment/:parcelId",
-        Component: Payment,
+        Component: PaymentSystem,
+      },
+      {
+        path: "stripe-payment/:parcelId",
+        Component: StripePayment
       },
     ],
   },
