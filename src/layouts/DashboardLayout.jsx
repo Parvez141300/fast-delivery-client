@@ -50,9 +50,9 @@ const DashboardLayout = () => {
     },
     {
       id: 5,
-      name: "Payments",
+      name: "Payment History",
       icon: <FaMoneyBill className="text-lg" />,
-      path: "/dashboard/payment",
+      path: "/dashboard/payment-history",
     },
     {
       id: 6,
