@@ -181,8 +181,8 @@ const MyParcels = () => {
 
   // payment of the product
   const handlePayment = (parcelId) => {
-    navigate(`/dashboard/payment/${parcelId}`)
-  }
+    navigate(`/dashboard/payment/${parcelId}`);
+  };
 
   //   handle delete the parcel
   const handleDelete = (parcel) => {
@@ -287,6 +287,9 @@ const MyParcels = () => {
                   Status
                 </th>
                 <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                  Payment Status
+                </th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700">
                   Actions
                 </th>
               </tr>
@@ -358,7 +361,11 @@ const MyParcels = () => {
                   </td>
                   {/* Status */}
                   <td className="py-4 px-6">
-                    <StatusBadge status={parcel.status} />
+                    <StatusBadge status={parcel?.status} />
+                  </td>
+                  {/* payment Status */}
+                  <td className="py-4 px-6">
+                    <span className="badge badge-primary">{parcel?.paymentStatus}</span>
                   </td>
                   {/* actions */}
                   <td className="py-4 px-6">
@@ -370,14 +377,20 @@ const MyParcels = () => {
                       >
                         View <FaEye />
                       </button>
-                      <button
-                      onClick={() => handlePayment(parcel?._id)}
-                        className="btn btn-sm btn-outline btn-primary tooltip"
-                        data-tip="Pay"
-                      >
-                        Pay <FaMoneyBill />
-                      </button>
-                      {parcel.status === "pending" && (
+                      {parcel.paymentStatus === "paid" ? (
+                        <button className="btn btn-primary" disabled={true}>
+                          Paid
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handlePayment(parcel?._id)}
+                          className="btn btn-sm btn-outline btn-primary tooltip"
+                          data-tip="Pay"
+                        >
+                          Pay <FaMoneyBill />
+                        </button>
+                      )}
+                      {parcel?.paymentStatus !== "paid" && (
                         <button
                           onClick={() => handleDelete(parcel)}
                           className="btn btn-sm btn-outline btn-error tooltip"

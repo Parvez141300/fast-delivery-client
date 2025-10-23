@@ -7,12 +7,12 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import StripePaymentForm from "./shared/StripePaymentForm";
 
+const stripePromise = loadStripe(import.meta.env.VITE_Stripe_Payment_Publishable_Key);
 const StripePayment = () => {
   const { parcelId } = useParams();
   const axiosSecure = useAxiosSecure();
-  const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
-  const { data: parcelData } = useQuery({
+  const { data: parcelData = {} } = useQuery({
     queryKey: ["single-parcel", parcelId],
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels/${parcelId}`);
@@ -80,7 +80,7 @@ const StripePayment = () => {
           </div>
           {/* stripe card */}
           <Elements stripe={stripePromise}>
-            <StripePaymentForm />
+            <StripePaymentForm parcelData={parcelData} />
           </Elements>
           {/* Test Card Info */}
           <div className="mt-6 bg-base-300 shadow-md rounded-lg p-4">

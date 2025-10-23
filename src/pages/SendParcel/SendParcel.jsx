@@ -163,6 +163,7 @@ const SendParcel = () => {
       createdBy: user?.email,
       creationDate: new Date().toISOString(),
       status: "pending",
+      paymentStatus: "unpaid",
       trackingId: `TRK-${Date.now()}`,
     };
     axiosInstance.post("/parcels", parcelData).then((res) => {
