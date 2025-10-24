@@ -39,6 +39,12 @@ const DashboardLayout = () => {
       path: "/dashboard/my-parcels",
     },
     {
+      id: 5,
+      name: "Payment History",
+      icon: <FaMoneyBill className="text-lg" />,
+      path: "/dashboard/payment-history",
+    },
+    {
       id: 3,
       name: "Delivery",
       icon: <FaShippingFast className="text-lg" />,
@@ -49,12 +55,6 @@ const DashboardLayout = () => {
       name: "Track Parcel",
       icon: <LuPackageSearch className="text-lg" />,
       path: "/dashboard/track-parcel",
-    },
-    {
-      id: 5,
-      name: "Payment History",
-      icon: <FaMoneyBill className="text-lg" />,
-      path: "/dashboard/payment-history",
     },
     {
       id: 6,
