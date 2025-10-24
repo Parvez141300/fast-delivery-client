@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
-import { FaBox, FaEye, FaMoneyBill, FaTimesCircle } from "react-icons/fa";
+import {
+  FaBox,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaEye,
+  FaMoneyBill,
+  FaTimesCircle,
+} from "react-icons/fa";
 import StatusBadge from "../shared/StatusBadge";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
@@ -13,14 +20,22 @@ const MyParcels = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["my-parcels", user?.email],
+    queryKey: ["my-parcels", user?.email, limit, currentPage],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/parcels/user?email=${user?.email}`);
+      const res = await axiosSecure.get(
+        `/parcels/user?email=${user?.email}&page=${currentPage}&limit=${limit}`
+      );
       return res.data;
     },
   });
+
+  const parcels = data?.parcels || [];
+  const totalParcels = data?.totalParcels || 0;
+  const totalPages = Math.ceil(totalParcels / limit);
 
   const deleteMutation = useMutation({
     mutationFn: async (parcelId) => {
@@ -230,7 +245,6 @@ const MyParcels = () => {
     );
   }
 
-  const parcels = data || [];
   return (
     <div>
       {/* Header */}
@@ -266,37 +280,50 @@ const MyParcels = () => {
           <p className="text-gray-500">You haven't sent any parcels yet.</p>
         </div> // Table Content
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
+        <div className="overflow-x-auto w-full">
+          {/* select the limit of the page */}
+          <div className="w-full flex justify-end">
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Select Page</legend>
+              <select
+                defaultValue={limit}
+                onChange={(e) => setLimit(e.target.value)}
+                className="select focus-within:outline-0"
+              >
+                <option value={5}>5</option>
+                <option value={7}>7</option>
+                <option value={10}>10</option>
+              </select>
+            </fieldset>
+          </div>
+          <table>
             {/* Table Head */}
             <thead className="bg-base-300">
               <tr>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                <th className="font-bold">No</th>
+                <th className="text-left py-4 px-6 font-semibold">
                   Tracking ID
                 </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                <th className="text-left py-4 px-6 font-semibold">
                   Parcel Info
                 </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
-                  Route
-                </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                <th className="text-left py-4 px-6 font-semibold">Route</th>
+                <th className="text-left py-4 px-6 font-semibold">
                   Delivery Info
                 </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
-                  Status
-                </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
+                <th className="text-left py-4 px-6 font-semibold">Status</th>
+                <th className="text-left py-4 px-6 font-semibold">
                   Payment Status
                 </th>
-                <th className="text-left py-4 px-6 font-semibold text-gray-700">
-                  Actions
-                </th>
+                <th className="text-left py-4 px-6 font-semibold">Actions</th>
               </tr>
             </thead>
+            {/* table main content */}
             <tbody>
-              {parcels.map((parcel) => (
+              {parcels.map((parcel, index) => (
                 <tr key={parcel?._id}>
+                  {/* serial number */}
+                  <td>{index + 1}</td>
                   {/* Tracking ID */}
                   <td className="py-4 px-6">
                     <div className="font-bold text-primary text-sm">
@@ -322,7 +349,7 @@ const MyParcels = () => {
                     </div>
                   </td>
                   {/* Route */}
-                  <td className="py-4 px-6">
+                  <td className="py-4 px-6 w-2xl">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-secondary rounded-full"></div>
@@ -339,7 +366,7 @@ const MyParcels = () => {
                     </div>
                   </td>
                   {/* Delivery Info */}
-                  <td className="py-4 px-6">
+                  <td className="w-xl">
                     <div className="space-y-1">
                       <div className="text-sm">
                         <span className="font-semibold">From:</span>{" "}
@@ -365,7 +392,9 @@ const MyParcels = () => {
                   </td>
                   {/* payment Status */}
                   <td className="py-4 px-6">
-                    <span className="badge badge-primary">{parcel?.paymentStatus}</span>
+                    <span className="badge badge-primary">
+                      {parcel?.paymentStatus}
+                    </span>
                   </td>
                   {/* actions */}
                   <td className="py-4 px-6">
@@ -406,6 +435,36 @@ const MyParcels = () => {
               ))}
             </tbody>
           </table>
+
+          {/* pagination */}
+          <div className="flex justify-center items-center gap-8">
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv - 1)}
+              disabled={currentPage === 1}
+            >
+              <FaChevronCircleLeft />
+            </button>
+            <div className="flex items-center gap-1">
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  className={`btn ${
+                    currentPage === index + 1 ? "btn-primary" : ""
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronCircleRight />
+            </button>
+          </div>
         </div>
       )}
     </div>

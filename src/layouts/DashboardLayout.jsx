@@ -13,6 +13,8 @@ import {
   FaTimes,
   FaBell,
 } from "react-icons/fa";
+import { LuPackageSearch } from "react-icons/lu";
+
 import useAuth from "../hooks/useAuth";
 import ThemeToggle from "../pages/components/ThemeToggle/ThemeToggle";
 import FastDeliveryLogo from "../pages/components/FastDeliveryLogo/FastDeliveryLogo";
@@ -44,9 +46,9 @@ const DashboardLayout = () => {
     },
     {
       id: 4,
-      name: "Customers",
-      icon: <FaUser className="text-lg" />,
-      path: "/dashboard/customers",
+      name: "Track Parcel",
+      icon: <LuPackageSearch className="text-lg" />,
+      path: "/dashboard/track-parcel",
     },
     {
       id: 5,
@@ -165,9 +167,7 @@ const DashboardLayout = () => {
           <header className="hidden lg:flex bg-base-200 shadow-sm">
             <div className="flex-1 flex justify-between items-center px-8 py-4">
               <div>
-                <h1 className="text-xl font-bold">
-                  Dashboard Overview
-                </h1>
+                <h1 className="text-xl font-bold">Dashboard Overview</h1>
                 <p>Welcome back, {user?.displayName}! 👋</p>
               </div>
               <div className="flex items-center space-x-4">
