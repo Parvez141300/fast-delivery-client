@@ -14,7 +14,6 @@ import MyParcels from "../pages/dashboard/UserDashboard/MyParcels/MyParcels";
 import PaymentSystem from "../pages/dashboard/UserDashboard/Payment/PaymentSystem";
 import StripePayment from "../pages/dashboard/UserDashboard/Payment/StripePayment/StripePayment";
 import PaymentHistory from "../pages/dashboard/UserDashboard/PaymentHistory/PaymentHistory";
-import TrackParcel from "../pages/dashboard/UserDashboard/TrackParcel/TrackParcel";
 
 export const router = createBrowserRouter([
   // root layout
@@ -83,10 +82,6 @@ export const router = createBrowserRouter([
       {
         path: "stripe-payment/:parcelId",
         Component: StripePayment
-      },
-      {
-        path: "track-parcel",
-        Component: TrackParcel
       },
       {
         path: 'payment-history',
