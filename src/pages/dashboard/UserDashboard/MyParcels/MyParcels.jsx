@@ -22,12 +22,15 @@ const MyParcels = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  console.log("search item text", search);
 
   const { isPending, isError, data, error } = useQuery({
-    queryKey: ["my-parcels", user?.email, limit, currentPage],
+    queryKey: ["my-parcels", user?.email, limit, currentPage, search],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels/user?email=${user?.email}&page=${currentPage}&limit=${limit}`
+        `/parcels/user?email=${user?.email}&page=${currentPage}&limit=${limit}&search=${search}`
       );
       return res.data;
     },
@@ -109,7 +112,9 @@ const MyParcels = () => {
                   }
                   
                   <div class="font-medium">Total Cost:</div>
-                  <div class="font-bold text-green-600">৳${parcel.total}</div>
+                  <div class="font-bold text-green-600">৳${parcel.amount}</div>
+                  <div>Payment Status:</div>
+                  <div class="font-bold">${parcel.paymentStatus}</div>
                 </div>
               </div>
     
@@ -171,10 +176,7 @@ const MyParcels = () => {
                       ? "bg-green-500"
                       : "bg-red-500"
                   }">
-                    ${
-                      parcel.status.charAt(0).toUpperCase() +
-                      parcel.status.slice(1)
-                    }
+                    ${parcel.status}
                   </div>
                 </div>
                 <div class="mt-2 text-sm">
@@ -282,7 +284,26 @@ const MyParcels = () => {
       ) : (
         <div className="overflow-x-auto w-full">
           {/* select the limit of the page */}
-          <div className="w-full flex justify-end">
+          <div className="w-full flex justify-between items-center">
+            <fieldset className="fieldset w-xs lg:w-md flex items-center">
+              <legend className="fieldset-legend">Search</legend>
+              <input
+                type="text"
+                placeholder="Tracking ID, Contact, Title, status, sender name..."
+                className="input focus-within:outline-0 w-full"
+                defaultValue={search}
+                onChange={(e) => {
+                  setSearchInput(e.target.value);
+                  setCurrentPage(1); // reset to page 1 when searching
+                }}
+              />
+              <button
+                className="btn btn-primary"
+                onClick={() => setSearch(searchInput)}
+              >
+                Search
+              </button>
+            </fieldset>
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Select Page</legend>
               <select
@@ -345,7 +366,7 @@ const MyParcels = () => {
                       <div className="text-sm">Weight: {parcel.weight}kg</div>
                     )}
                     <div className="text-sm font-semibold text-primary mt-1">
-                      Charge: ৳{parcel.total}
+                      Charge: ৳{parcel.amount}
                     </div>
                   </td>
                   {/* Route */}
@@ -448,6 +469,7 @@ const MyParcels = () => {
             <div className="flex items-center gap-1">
               {[...Array(totalPages)].map((_, index) => (
                 <button
+                  key={index}
                   className={`btn ${
                     currentPage === index + 1 ? "btn-primary" : ""
                   }`}
