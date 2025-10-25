@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useAuth from "../../../hooks/useAuth";
 import SocialLogin from "../shared/SocialLogin";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,8 @@ const Register = () => {
   const { createUser, userProfileUpdate, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state.from.pathname || "/";
+  const from = location?.state?.from?.pathname || "/";
+  const axiosSecure = useAxiosSecure();
 
   // this function is for file open picker
   const handleAvater = () => {
@@ -82,17 +84,34 @@ const Register = () => {
           displayName: name,
           photoURL: imageURL,
         })
-          .then(() => {
-            toast.success("User Successfully Registered", {
-              position: "top-center",
-            });
-            setLoading(false);
-            reset();
-            setImageFile(null);
-            setImagePreview(null);
-            navigate(from);
+          .then(async () => {
+            const userData = {
+              name,
+              email,
+              photoURL: imageURL,
+              role: "user",
+              createdAt: new Date().toISOString(),
+            };
+            const res = await axiosSecure.post("/users", userData);
+
+            if (res.data.insertedId) {
+              toast.success("User Successfully Registered", {
+                position: "top-center",
+              });
+              setLoading(false);
+              reset();
+              setImageFile(null);
+              setImagePreview(null);
+              navigate(from);
+            }
+            else{
+              toast.error("This user already Registered", {
+                position: "top-center",
+              });
+            }
           })
           .catch((err) => {
+            setLoading(false);
             toast.error(err.message);
           });
       })
