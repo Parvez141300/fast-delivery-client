@@ -85,10 +85,11 @@ const Register = () => {
           photoURL: imageURL,
         })
           .then(async () => {
+            // save user data to database
             const userData = {
               name,
               email,
-              photoURL: imageURL,
+              image: imageURL,
               role: "user",
               createdAt: new Date().toISOString(),
             };

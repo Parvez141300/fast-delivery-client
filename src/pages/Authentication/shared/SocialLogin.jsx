@@ -3,20 +3,44 @@ import { FcGoogle } from "react-icons/fc";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const SocialLogin = () => {
-  const { googleLogin, loading } = useAuth();
+  const { googleLogin, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location?.state?.from?.pathname || '/';
+  const from = location?.state?.from?.pathname || "/";
+  const axiosSecure = useAxiosSecure();
 
   const handleGoogleLogin = () => {
     googleLogin()
-      .then((result) => {
-        toast.success(
-          `Successfully Logged in user: ${result?.user?.displayName}`
-        );
-        navigate(from);
+      .then(async (result) => {
+        const loggedUser = result.user;
+        // save user data to database
+        const userData = {
+          name: loggedUser.displayName,
+          email: loggedUser.email,
+          image: loggedUser.photoURL,
+          role: "user",
+          createdAt: new Date().toISOString(),
+        };
+        const res = await axiosSecure.post("/users", userData);
+
+        if (res.data.insertedId) {
+          toast.success("User Successfully Registered", {
+            position: "top-center",
+          });
+          setLoading(false);
+          navigate(from);
+        } else {
+          if (res.data.insertedId === null) {
+            navigate(from);
+          }
+          setLoading(false);
+          toast.error("Successfully logged in", {
+            position: "top-center",
+          });
+        }
       })
       .catch((error) => {
         toast.error(error.message);
