@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import {
   FaTachometerAlt,
   FaBox,
@@ -23,58 +23,122 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
   const themeControl = useTheme();
+  const navItems = (
+    <>
+      <NavLink
+        to="/dashboard"
+        end
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaTachometerAlt className="text-lg" />
+        <span className="flex-1">Dashboard</span>
+      </NavLink>
 
-  // Static navigation links
-  const navigationLinks = [
-    {
-      id: 1,
-      name: "Dashboard",
-      icon: <FaTachometerAlt className="text-lg" />,
-      path: "/dashboard",
-    },
-    {
-      id: 2,
-      name: "My Parcels",
-      icon: <FaBox className="text-lg" />,
-      path: "/dashboard/my-parcels",
-    },
-    {
-      id: 5,
-      name: "Payment History",
-      icon: <FaMoneyBill className="text-lg" />,
-      path: "/dashboard/payment-history",
-    },
-    {
-      id: 3,
-      name: "Delivery",
-      icon: <FaShippingFast className="text-lg" />,
-      path: "/dashboard/delivery",
-    },
-    {
-      id: 4,
-      name: "Track Parcel",
-      icon: <LuPackageSearch className="text-lg" />,
-      path: "/dashboard/track-parcel",
-    },
-    {
-      id: 6,
-      name: "Analytics",
-      icon: <FaChartBar className="text-lg" />,
-      path: "/dashboard/analytics",
-    },
-    {
-      id: 7,
-      name: "Settings",
-      icon: <FaCog className="text-lg" />,
-      path: "/dashboard/settings",
-    },
-    {
-      id: 8,
-      name: "Help & Support",
-      icon: <FaQuestionCircle className="text-lg" />,
-      path: "/dashboard/support",
-    },
-  ];
+      <NavLink
+        to="/dashboard/my-parcels"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaBox className="text-lg" />
+        <span className="flex-1">My Parcels</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/delivery"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaShippingFast className="text-lg" />
+        <span className="flex-1">Delivery</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/track-parcel"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <LuPackageSearch className="text-lg" />
+        <span className="flex-1">Track Parcel</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/payment-history"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaMoneyBill className="text-lg" />
+        <span className="flex-1">Payment History</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/analytics"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaChartBar className="text-lg" />
+        <span className="flex-1">Analytics</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/settings"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaCog className="text-lg" />
+        <span className="flex-1">Settings</span>
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/support"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaQuestionCircle className="text-lg" />
+        <span className="flex-1">Help & Support</span>
+      </NavLink>
+    </>
+  );
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -94,6 +158,7 @@ const DashboardLayout = () => {
             <FastDeliveryLogo />
           </div>
           <div className="flex items-center gap-2">
+            {/* for theme control */}
             {themeControl}
             <div className="avatar">
               <div className="w-8 rounded-full bg-primary text-white flex items-center justify-center">
@@ -125,20 +190,7 @@ const DashboardLayout = () => {
 
             {/* Navigation */}
             <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
-              {navigationLinks.map((link) => (
-                <Link
-                  key={link.id}
-                  to={link.path}
-                  className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    link.id === 1
-                      ? "bg-primary text-white shadow-md"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                  }`}
-                >
-                  <span className="mr-3">{link.icon}</span>
-                  <span className="flex-1">{link.name}</span>
-                </Link>
-              ))}
+              {navItems}
             </nav>
 
             {/* User Profile */}
