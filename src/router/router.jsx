@@ -14,6 +14,7 @@ import MyParcels from "../pages/dashboard/UserDashboard/MyParcels/MyParcels";
 import PaymentSystem from "../pages/dashboard/UserDashboard/Payment/PaymentSystem";
 import StripePayment from "../pages/dashboard/UserDashboard/Payment/StripePayment/StripePayment";
 import PaymentHistory from "../pages/dashboard/UserDashboard/PaymentHistory/PaymentHistory";
+import BeARider from "../pages/BeARider/BeARider";
 
 export const router = createBrowserRouter([
   // root layout
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
             <SendParcel />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/be-a-rider",
+        element: <PrivateRoute><BeARider /></PrivateRoute>
       },
       {
         path: "/about-us",

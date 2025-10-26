@@ -189,7 +189,7 @@ const NavBar = () => {
             Login
           </Link>
         )}
-
+        
         <Link to={"/be-a-rider"} className="btn btn-primary">
           Be a rider
         </Link>
