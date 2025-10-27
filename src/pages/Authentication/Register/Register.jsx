@@ -104,8 +104,8 @@ const Register = () => {
               setImageFile(null);
               setImagePreview(null);
               navigate(from);
-            }
-            else{
+            } else {
+              setLoading(false);
               toast.error("This user already Registered", {
                 position: "top-center",
               });
