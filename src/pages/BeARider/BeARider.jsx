@@ -99,19 +99,19 @@ const BeARider = () => {
 
       const riderData = {
         ...data,
-        userId: user?.uid,
         userEmail: user?.email,
         drivingLicenseUrl: drivingLicenseData?.secure_url,
         bikePapersUrl: bikePapersData?.secure_url,
         status: "pending", // pending, approved, rejected
-        applicationDate: new Date().toISOString(),
-        role: "rider-applicant",
+        createdAt: new Date().toISOString(),
+        role: "rider",
       };
 
       // Save to database
-      const response = await axiosSecure.post("/riders/apply", riderData);
-
-      if (response.data.success) {
+      const response = await axiosSecure.post("/riders", riderData);
+      console.log('response from published data', response.data);
+      
+      if (response.data.insertedId) {
         toast.success("Rider application submitted successfully!", {
           position: "top-center",
         });
@@ -261,10 +261,10 @@ const BeARider = () => {
                         className="input w-full focus-within:outline-0"
                         {...register("phone", {
                           required: "Phone number is required",
-                          pattern: {
-                            value: /^\+8801[3-9]\d{8}$/,
-                            message: "Please enter a valid Bangladeshi number",
-                          },
+                          // pattern: {
+                          //   value: /^\+8801[3-9]\d{8}$/,
+                          //   message: "Please enter a valid Bangladeshi number",
+                          // },
                         })}
                       />
                     </div>
@@ -285,15 +285,15 @@ const BeARider = () => {
                   </label>
                   <div className="relative">
                     <input
-                      type="text"
+                      type="number"
                       placeholder="Enter your NID number"
                       className="input w-full focus-within:outline-0"
                       {...register("nationalId", {
                         required: "National ID is required",
-                        pattern: {
-                          value: /^\d{10,17}$/,
-                          message: "Please enter a valid National ID number",
-                        },
+                        // pattern: {
+                        //   value: /^\d{10,17}$/,
+                        //   message: "Please enter a valid National ID number",
+                        // },
                       })}
                     />
                   </div>
@@ -377,7 +377,7 @@ const BeARider = () => {
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">
-                      Bike Registration Number *
+                      Bike Registration Number * 
                     </span>
                   </label>
                   <div className="relative">
@@ -440,11 +440,11 @@ const BeARider = () => {
                   {/* Driving License */}
                   <div className="form-control">
                     <label className="label">
-                      <span className="label-text">Driving License *</span>
+                      <span className="label-text">Driving License (Only Image) *</span>
                     </label>
                     <input
                       type="file"
-                      accept="image/*,.pdf"
+                      accept="image/*"
                       className="file-input focus-within:outline-0 w-full"
                       {...register("drivingLicense", {
                         required: "Driving license is required",
@@ -473,12 +473,12 @@ const BeARider = () => {
                   <div className="form-control">
                     <label className="label">
                       <span className="label-text">
-                        Bike Registration Papers *
+                        Bike Registration Papers (Only Image) *
                       </span>
                     </label>
                     <input
                       type="file"
-                      accept="image/*,.pdf"
+                      accept="image/*"
                       className="file-input focus-within:outline-0 w-full"
                       {...register("bikePapers", {
                         required: "Bike papers are required",

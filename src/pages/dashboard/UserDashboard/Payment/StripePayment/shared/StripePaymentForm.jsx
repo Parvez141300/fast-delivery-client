@@ -100,8 +100,7 @@ const StripePaymentForm = ({ parcelData }) => {
       await axiosSecure.patch(`/parcels/payment/${parcelData?._id}`);
 
       // ✅ Save payment history
-      await axiosSecure
-        .post("/payments", {
+      await axiosSecure.post("/payments", {
           parcelId: parcelData?._id,
           userEmail: user?.email,
           amount: parcelData?.amount,
@@ -117,7 +116,7 @@ const StripePaymentForm = ({ parcelData }) => {
               showConfirmButton: false,
               timer: 1500,
             });
-            navigate('/dashboard/my-parcels');
+            navigate("/dashboard/my-parcels");
           } else {
             toast.error(
               `Payment already done by the user ${user?.displayName}`

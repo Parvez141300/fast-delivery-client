@@ -55,6 +55,20 @@ const DashboardLayout = () => {
       </NavLink>
 
       <NavLink
+        to="/dashboard/payment-history"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaMoneyBill className="text-lg" />
+        <span className="flex-1">Payment History</span>
+      </NavLink>
+
+      <NavLink
         to="/dashboard/delivery"
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
@@ -80,20 +94,6 @@ const DashboardLayout = () => {
       >
         <LuPackageSearch className="text-lg" />
         <span className="flex-1">Track Parcel</span>
-      </NavLink>
-
-      <NavLink
-        to="/dashboard/payment-history"
-        className={({ isActive }) =>
-          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
-            isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-          }`
-        }
-      >
-        <FaMoneyBill className="text-lg" />
-        <span className="flex-1">Payment History</span>
       </NavLink>
 
       <NavLink
