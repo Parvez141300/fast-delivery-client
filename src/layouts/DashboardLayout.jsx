@@ -19,6 +19,8 @@ import useAuth from "../hooks/useAuth";
 import ThemeToggle from "../pages/components/ThemeToggle/ThemeToggle";
 import FastDeliveryLogo from "../pages/components/FastDeliveryLogo/FastDeliveryLogo";
 import useTheme from "../hooks/useTheme";
+import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useQueries } from "@tanstack/react-query";
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
@@ -139,10 +141,35 @@ const DashboardLayout = () => {
       </NavLink>
     </>
   );
+  const axiosSecure = useAxiosSecure();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // get user and rider info
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["user", user?.email],
+        queryFn: async () => {
+          const res = await axiosSecure.get(`/users?email=${user?.email}`);
+          return res.data;
+        },
+      },
+      {
+        queryKey: ["rider", user?.email],
+        queryFn: async () => {
+          const res = await axiosSecure.get(`/riders?email=${user?.email}`);
+          return res.data;
+        },
+      },
+    ],
+  });
+
+  const userData = results[0]?.data;
+  const riderData = results[1]?.data;
+
   return (
     <div className="min-h-screen">
       {/* Mobile Header */}
@@ -206,7 +233,11 @@ const DashboardLayout = () => {
                     <p className="text-sm font-medium text-gray-700">
                       {user?.displayName}
                     </p>
-                    <p className="text-xs font-medium text-gray-500">Admin</p>
+                    <p className="text-xs font-medium text-gray-500">
+                      {riderData?.role === "rider"
+                        ? riderData?.role
+                        : userData?.role}
+                    </p>
                   </div>
                 </div>
               </div>
