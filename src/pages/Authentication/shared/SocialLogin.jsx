@@ -16,7 +16,7 @@ const SocialLogin = () => {
     googleLogin()
       .then(async (result) => {
         const loggedUser = result.user;
-        console.log('logged user', loggedUser);
+        console.log("logged user", loggedUser);
         // save user data to database
         const userData = {
           name: loggedUser.displayName,
@@ -26,7 +26,7 @@ const SocialLogin = () => {
           createdAt: new Date().toISOString(),
         };
         const res = await axiosSecure.post("/users", userData);
-        console.log('response data', res.data);
+        console.log("response data", res.data);
 
         if (res.data.insertedId) {
           toast.success("User Successfully Registered", {
@@ -39,13 +39,13 @@ const SocialLogin = () => {
             navigate(from);
           }
           setLoading(false);
-          toast.error("Successfully logged in", {
+          toast.success("Successfully logged in", {
             position: "top-center",
           });
         }
       })
       .catch((error) => {
-        console.log('error form social login', error);
+        console.log("error form social login", error);
         toast.error(error.message);
       });
   };
