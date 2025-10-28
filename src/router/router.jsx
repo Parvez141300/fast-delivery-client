@@ -15,6 +15,8 @@ import PaymentSystem from "../pages/dashboard/UserDashboard/Payment/PaymentSyste
 import StripePayment from "../pages/dashboard/UserDashboard/Payment/StripePayment/StripePayment";
 import PaymentHistory from "../pages/dashboard/UserDashboard/PaymentHistory/PaymentHistory";
 import BeARider from "../pages/BeARider/BeARider";
+import ActiveRiders from "../pages/dashboard/AdminDashboard/ActiveRiders/ActiveRiders";
+import PendingRiders from "../pages/dashboard/AdminDashboard/PendingRiders/PendingRiders";
 
 export const router = createBrowserRouter([
   // root layout
@@ -91,6 +93,14 @@ export const router = createBrowserRouter([
       {
         path: 'payment-history',
         Component: PaymentHistory
+      },
+      {
+        path: 'active-riders',
+        Component: ActiveRiders
+      },
+      {
+        path: 'pending-riders',
+        Component: PendingRiders
       },
     ],
   },

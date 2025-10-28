@@ -12,6 +12,8 @@ import {
   FaBars,
   FaTimes,
   FaBell,
+  FaMotorcycle,
+  FaClock,
 } from "react-icons/fa";
 import { LuPackageSearch } from "react-icons/lu";
 
@@ -25,8 +27,37 @@ const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
   const themeControl = useTheme();
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // get user and rider info
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["user", user?.email],
+        queryFn: async () => {
+          const res = await axiosSecure.get(`/users?email=${user?.email}`);
+          return res.data;
+        },
+      },
+      {
+        queryKey: ["rider", user?.email],
+        queryFn: async () => {
+          const res = await axiosSecure.get(`/riders?email=${user?.email}`);
+          return res.data;
+        },
+      },
+    ],
+  });
+
+  const userData = results[0]?.data;
+  const riderData = results[1]?.data;
+
   const navItems = (
     <>
+      {/* dashboard route */}
       <NavLink
         to="/dashboard"
         end
@@ -41,7 +72,7 @@ const DashboardLayout = () => {
         <FaTachometerAlt className="text-lg" />
         <span className="flex-1">Dashboard</span>
       </NavLink>
-
+      {/* my parcels route */}
       <NavLink
         to="/dashboard/my-parcels"
         className={({ isActive }) =>
@@ -55,7 +86,37 @@ const DashboardLayout = () => {
         <FaBox className="text-lg" />
         <span className="flex-1">My Parcels</span>
       </NavLink>
-
+      {/* rider active riders */}
+      <NavLink
+        to="/dashboard/active-riders"
+        end
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaMotorcycle className="text-lg" />
+        <span className="flex-1">Active Riders</span>
+      </NavLink>
+      {/* pending riders */}
+      <NavLink
+        to="/dashboard/pending-riders"
+        end
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md border-l-4 border-white"
+              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaClock className="text-lg" />
+        <span className="flex-1">Pending Riders</span>
+      </NavLink>
+      {/* payment history route */}
       <NavLink
         to="/dashboard/payment-history"
         className={({ isActive }) =>
@@ -142,33 +203,6 @@ const DashboardLayout = () => {
     </>
   );
   const axiosSecure = useAxiosSecure();
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  // get user and rider info
-  const results = useQueries({
-    queries: [
-      {
-        queryKey: ["user", user?.email],
-        queryFn: async () => {
-          const res = await axiosSecure.get(`/users?email=${user?.email}`);
-          return res.data;
-        },
-      },
-      {
-        queryKey: ["rider", user?.email],
-        queryFn: async () => {
-          const res = await axiosSecure.get(`/riders?email=${user?.email}`);
-          return res.data;
-        },
-      },
-    ],
-  });
-
-  const userData = results[0]?.data;
-  const riderData = results[1]?.data;
 
   return (
     <div className="min-h-screen">
