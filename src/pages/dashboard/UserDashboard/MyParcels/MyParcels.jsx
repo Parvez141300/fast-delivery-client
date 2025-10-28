@@ -344,7 +344,7 @@ const MyParcels = () => {
               {parcels.map((parcel, index) => (
                 <tr key={parcel?._id}>
                   {/* serial number */}
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * limit + index + 1}</td>
                   {/* Tracking ID */}
                   <td className="py-4 px-6">
                     <div className="font-bold text-primary text-sm">
