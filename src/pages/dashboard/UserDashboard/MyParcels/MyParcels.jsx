@@ -271,6 +271,46 @@ const MyParcels = () => {
           </div>
         </div>
       </div>
+      {/* select the limit of the page */}
+      <div className="w-full flex justify-between items-center">
+        <fieldset className="fieldset w-xs lg:w-md flex items-center">
+          <legend className="fieldset-legend">Search</legend>
+          <input
+            type="text"
+            placeholder="Tracking ID, Contact, Title, status, sender name..."
+            className="input focus-within:outline-0 w-full"
+            defaultValue={search}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+              setCurrentPage(1); // reset to page 1 when searching
+            }}
+            onKeyDown={(e) => {
+              setCurrentPage(1)
+              if(e.key === "Enter"){
+                setSearch(searchInput)
+              }
+            }}
+          />
+          <button
+            className="btn btn-primary"
+            onClick={() => setSearch(searchInput)}
+          >
+            Search
+          </button>
+        </fieldset>
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Select Page</legend>
+          <select
+            defaultValue={limit}
+            onChange={(e) => setLimit(e.target.value)}
+            className="select focus-within:outline-0"
+          >
+            <option value={5}>5</option>
+            <option value={7}>7</option>
+            <option value={10}>10</option>
+          </select>
+        </fieldset>
+      </div>
 
       {/* parcels table */}
       {parcels.length === 0 ? ( // Empty state
@@ -283,40 +323,6 @@ const MyParcels = () => {
         </div> // Table Content
       ) : (
         <div className="overflow-x-auto w-full">
-          {/* select the limit of the page */}
-          <div className="w-full flex justify-between items-center">
-            <fieldset className="fieldset w-xs lg:w-md flex items-center">
-              <legend className="fieldset-legend">Search</legend>
-              <input
-                type="text"
-                placeholder="Tracking ID, Contact, Title, status, sender name..."
-                className="input focus-within:outline-0 w-full"
-                defaultValue={search}
-                onChange={(e) => {
-                  setSearchInput(e.target.value);
-                  setCurrentPage(1); // reset to page 1 when searching
-                }}
-              />
-              <button
-                className="btn btn-primary"
-                onClick={() => setSearch(searchInput)}
-              >
-                Search
-              </button>
-            </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend">Select Page</legend>
-              <select
-                defaultValue={limit}
-                onChange={(e) => setLimit(e.target.value)}
-                className="select focus-within:outline-0"
-              >
-                <option value={5}>5</option>
-                <option value={7}>7</option>
-                <option value={10}>10</option>
-              </select>
-            </fieldset>
-          </div>
           <table>
             {/* Table Head */}
             <thead className="bg-base-300">
