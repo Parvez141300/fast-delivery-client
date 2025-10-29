@@ -47,7 +47,7 @@ const PendingRiders = () => {
   // set rider pending to active
   const activateMutation = useMutation({
     mutationFn: async (riderId) => {
-      const res = await axiosSecure.patch(`/riders/pending/${riderId}`);
+      const res = await axiosSecure.patch(`/riders/status/${riderId}`, {makeStatus: "active"});
       return res.data;
     },
     onSuccess: async () => {
