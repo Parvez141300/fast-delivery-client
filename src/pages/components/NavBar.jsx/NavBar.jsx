@@ -148,9 +148,8 @@ const NavBar = () => {
               {/* user profile avatar image */}
               <div
                 onClick={() => setShowDropDown((prv) => !prv)}
-                className="avatar cursor-pointer"
-                data-tooltip-id="user-info"
-                data-tooltip-content={user?.displayName}
+                className="avatar cursor-pointer tooltip tooltip-bottom"
+                data-tip={user?.displayName}
               >
                 <div className="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2">
                   <img
