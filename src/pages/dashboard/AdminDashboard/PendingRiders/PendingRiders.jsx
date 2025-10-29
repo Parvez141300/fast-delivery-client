@@ -5,7 +5,10 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import {
   FaCheckCircle,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
   FaEye,
+  FaSearch,
   FaTimesCircle,
   FaUserClock,
 } from "react-icons/fa";
@@ -15,23 +18,31 @@ const PendingRiders = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const queryClient = useQueryClient();
 
   // get pending riders
   const {
-    data: pendingRiders = [],
+    data: pendingRidersData,
     isPending,
     isError,
     error,
   } = useQuery({
-    queryKey: ["pending-riders", user?.email],
+    queryKey: ["pending-riders", user?.email, search, limit],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/riders/pending`);
+      const res = await axiosSecure.get(
+        `/riders/pending?page=${currentPage}&limit=${limit}&search=${search}`
+      );
       return res.data;
     },
   });
+
+  console.log("pending riders", pendingRidersData);
+
+  const totalPendingRiders = pendingRidersData?.countRiders || 0;
+  const totalPages = Math.ceil(totalPendingRiders / limit);
 
   // set rider pending to active
   const activateMutation = useMutation({
@@ -309,15 +320,62 @@ const PendingRiders = () => {
             <div className="stat bg-base-300 shadow-lg rounded-lg px-6 py-4">
               <div className="stat-title">Pending Applications</div>
               <div className="stat-value text-primary text-3xl">
-                {pendingRiders?.length}
+                {pendingRidersData?.countRiders}
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* search and page limit filter section */}
+      <div className="mb-6 flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
+        {/* search field */}
+        <fieldset className="fieldset w-full lg:w-96">
+          <legend className="fieldset-legend">Search Riders</legend>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search by email, phone"
+              className="input focus-within:outline-0 flex-1"
+              value={searchInput}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                setCurrentPage(1);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearch(searchInput);
+                }
+              }}
+            />
+            <button
+              className="btn btn-primary"
+              onClick={() => setSearch(searchInput)}
+            >
+              <FaSearch />
+            </button>
+          </div>
+        </fieldset>
+        {/* page limit filter section */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Items per page</legend>
+          <select
+            value={limit}
+            onChange={(e) => {
+              setLimit(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="select focus-within:outline-0"
+          >
+            <option value={5}>5</option>
+            <option value={7}>7</option>
+            <option value={10}>10</option>
+          </select>
+        </fieldset>
+      </div>
+
       {/* pending riders table */}
-      {pendingRiders?.length === 0 ? (
+      {pendingRidersData?.result?.length === 0 ? (
         <div className="text-center py-12 bg-base-100 rounded-lg shadow">
           <FaUserClock className="text-4xl text-primary mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-primary mb-2">
@@ -353,7 +411,7 @@ const PendingRiders = () => {
 
             {/* Table Body */}
             <tbody>
-              {pendingRiders.map((rider, index) => (
+              {pendingRidersData?.result?.map((rider, index) => (
                 <tr key={rider._id} className="hover:bg-base-200">
                   {/* Serial Number */}
                   <td className="font-medium">
@@ -480,6 +538,36 @@ const PendingRiders = () => {
               ))}
             </tbody>
           </table>
+          {/* pagination */}
+          <div className="flex justify-center items-center gap-2 mt-2">
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv - 1)}
+              disabled={currentPage === 1}
+            >
+              <FaChevronCircleLeft />
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                className={`btn ${
+                  currentPage === index + 1
+                    ? "btn-primary"
+                    : "btn-primary btn-outline"
+                }`}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronCircleRight />
+            </button>
+          </div>
         </div>
       )}
     </div>
