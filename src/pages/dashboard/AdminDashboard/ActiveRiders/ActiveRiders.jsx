@@ -40,8 +40,11 @@ const ActiveRiders = () => {
 
   // Deactivate rider mutation
   const deactivateMutation = useMutation({
-    mutationFn: async (riderId) => {
-      const res = await axiosSecure.patch(`/riders/status/${riderId}`);
+    mutationFn: async (rider) => {
+      const res = await axiosSecure.patch(`/riders/status/${rider._id}`, {
+        makeStatus: "pending",
+        riderEmail: rider.email,
+      });
       return res.data;
     },
     onSuccess: async () => {
@@ -70,7 +73,7 @@ const ActiveRiders = () => {
       const res = await axiosSecure.patch(`/riders/assign/${riderId}`);
       return res.data;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["active-riders"] });
       Swal.fire({
         title: "Assigned!",
@@ -186,7 +189,7 @@ const ActiveRiders = () => {
                 <div>
                     <div class="font-medium text-gray-600">Driving License</div>
                     <a href="${
-                    rider.drivingLicenseUrl
+                      rider.drivingLicenseUrl
                     }" target="_blank" class="text-blue-600 hover:underline">
                     View License
                     </a>
@@ -194,7 +197,7 @@ const ActiveRiders = () => {
                 <div>
                     <div class="font-medium text-gray-600">Bike Papers</div>
                     <a href="${
-                    rider.bikePapersUrl
+                      rider.bikePapersUrl
                     }" target="_blank" class="text-blue-600 hover:underline">
                     View Papers
                     </a>
@@ -254,7 +257,7 @@ const ActiveRiders = () => {
       buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        deactivateMutation.mutate(rider._id);
+        deactivateMutation.mutate(rider);
       }
     });
   };
