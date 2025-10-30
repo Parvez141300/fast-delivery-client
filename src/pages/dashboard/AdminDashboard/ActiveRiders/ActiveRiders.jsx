@@ -343,7 +343,7 @@ const ActiveRiders = () => {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="mb-6 flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
+      <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center">
         <fieldset className="fieldset w-full lg:w-96">
           <legend className="fieldset-legend">Search Riders</legend>
           <div className="flex gap-2">
