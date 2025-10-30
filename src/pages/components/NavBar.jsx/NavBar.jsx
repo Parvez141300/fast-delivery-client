@@ -4,8 +4,6 @@ import FastDeliveryLogo from "../FastDeliveryLogo/FastDeliveryLogo";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import useAuth from "../../../hooks/useAuth";
 import { toast } from "react-toastify";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 
 const NavBar = () => {
   const { user, logOut, loading, setLoading } = useAuth();
@@ -181,7 +179,6 @@ const NavBar = () => {
                 </div>
               )}
             </div>
-            <Tooltip id="user-info" />
           </>
         ) : (
           <Link to={"/login"} className="btn btn-primary btn-outline">

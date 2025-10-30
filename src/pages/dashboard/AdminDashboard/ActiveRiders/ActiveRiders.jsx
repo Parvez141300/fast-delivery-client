@@ -176,6 +176,32 @@ const ActiveRiders = () => {
             </div>
           </div>
 
+          <!-- Documents -->
+            <div class="border rounded-lg p-4">
+                <div class="font-semibold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                <i class="fas fa-file-alt text-red-500"></i>
+                Documents
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                    <div class="font-medium text-gray-600">Driving License</div>
+                    <a href="${
+                    rider.drivingLicenseUrl
+                    }" target="_blank" class="text-blue-600 hover:underline">
+                    View License
+                    </a>
+                </div>
+                <div>
+                    <div class="font-medium text-gray-600">Bike Papers</div>
+                    <a href="${
+                    rider.bikePapersUrl
+                    }" target="_blank" class="text-blue-600 hover:underline">
+                    View Papers
+                    </a>
+                </div>
+                </div>
+            </div>
+
           <!-- Performance Stats (You can add actual stats from your backend) -->
           <div class="border rounded-lg p-4 bg-blue-50">
             <div class="font-semibold text-lg text-gray-800 mb-3 flex items-center gap-2">
@@ -466,18 +492,6 @@ const ActiveRiders = () => {
                           {rider.totalDeliveries || 0}
                         </div>
                       </div>
-                      <div>
-                        <div className="font-medium text-sm">Success Rate</div>
-                        <div className="text-sm font-semibold text-green-600">
-                          {rider.successRate || "100"}%
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-medium text-sm">Rating</div>
-                        <div className="text-sm font-semibold text-yellow-600">
-                          {rider.rating || "5.0"}/5.0
-                        </div>
-                      </div>
                     </div>
                   </td>
 
@@ -486,7 +500,7 @@ const ActiveRiders = () => {
                     <div className="flex flex-col gap-2">
                       <button
                         onClick={() => handleViewDetails(rider)}
-                        className="btn btn-sm btn-outline btn-info tooltip"
+                        className="btn btn-sm btn-outline btn-primary tooltip"
                         data-tip="View Details"
                       >
                         <FaEye />
@@ -494,7 +508,7 @@ const ActiveRiders = () => {
                       </button>
                       <button
                         onClick={() => handleDeactivate(rider)}
-                        className="btn btn-sm btn-outline btn-warning tooltip"
+                        className="btn btn-sm btn-outline btn-secondary tooltip"
                         data-tip="Deactivate Rider"
                         disabled={deactivateMutation.isPending}
                       >
@@ -505,7 +519,7 @@ const ActiveRiders = () => {
                       </button>
                       <button
                         onClick={() => handleAssign(rider)}
-                        className="btn btn-sm btn-outline btn-success tooltip"
+                        className="btn btn-sm btn-outline btn-primary tooltip"
                         data-tip="Assign Delivery"
                         disabled={assignMutation.isPending}
                       >
