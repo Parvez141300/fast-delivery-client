@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -6,6 +6,8 @@ import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import {
   FaCalendar,
   FaCheckCircle,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
   FaFileDownload,
   FaReceipt,
 } from "react-icons/fa";
@@ -13,21 +15,26 @@ import {
 const PaymentHistory = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
   // get the user payment history data's
-  const {
-    data: payments = [],
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["payment-history", user?.email],
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["payment-history", user?.email, currentPage, limit, search],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/payments/user?email=${user?.email}`);
+      const res = await axiosSecure.get(
+        `/payments/user?email=${user?.email}&page=${currentPage}&limit=${limit}&search=${search}`
+      );
       return res.data;
     },
     enabled: !!user?.email,
   });
+
+  const payments = data?.result || [];
+  const totalPayments = data?.totalPayments;
+  const totalPages = Math.ceil(totalPayments / limit);
 
   // Loading state
   if (isLoading) {
@@ -49,8 +56,8 @@ const PaymentHistory = () => {
   }
   return (
     <div>
-      {/* Header */}
       <div className="mb-8">
+        {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
@@ -65,10 +72,50 @@ const PaymentHistory = () => {
             <div className="stat bg-white shadow-lg rounded-lg px-6 py-4">
               <div className="stat-title text-gray-600">Total Payments</div>
               <div className="stat-value text-primary text-3xl">
-                {payments?.length || 0}
+                {totalPayments || 0}
               </div>
             </div>
           </div>
+        </div>
+        {/* select the limit of the page */}
+        <div className="w-full flex justify-between items-center">
+          <fieldset className="fieldset w-xs lg:w-md flex items-center">
+            <legend className="fieldset-legend">Search</legend>
+            <input
+              type="text"
+              placeholder="Transaction ID, Email"
+              className="input focus-within:outline-0 w-full"
+              defaultValue={search}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                setCurrentPage(1); // reset to page 1 when searching
+              }}
+              onKeyDown={(e) => {
+                setCurrentPage(1);
+                if (e.key === "Enter") {
+                  setSearch(searchInput);
+                }
+              }}
+            />
+            <button
+              className="btn btn-primary"
+              onClick={() => setSearch(searchInput)}
+            >
+              Search
+            </button>
+          </fieldset>
+          <fieldset className="fieldset">
+            <legend className="fieldset-legend">Select Page</legend>
+            <select
+              defaultValue={limit}
+              onChange={(e) => setLimit(e.target.value)}
+              className="select focus-within:outline-0"
+            >
+              <option value={5}>5</option>
+              <option value={7}>7</option>
+              <option value={10}>10</option>
+            </select>
+          </fieldset>
         </div>
         {/* Payment History Table */}
         <div className="shadow-xl rounded-lg">
@@ -99,7 +146,7 @@ const PaymentHistory = () => {
                   <tr>
                     <th>No.</th>
                     <th className="py-4 px-6 font-semibold text-left">
-                      Transaction
+                      Transaction ID
                     </th>
                     <th className="py-4 px-6 font-semibold text-left">Email</th>
                     <th className="py-4 px-6 font-semibold text-left">
@@ -123,10 +170,7 @@ const PaymentHistory = () => {
                 {/* Table Body */}
                 <tbody>
                   {payments.map((payment, index) => (
-                    <tr
-                      key={payment._id}
-
-                    >
+                    <tr key={payment._id}>
                       {/* table serial */}
                       <td>{index + 1}</td>
                       {/* Transaction ID */}
@@ -134,7 +178,7 @@ const PaymentHistory = () => {
                         <div className="flex items-center gap-3">
                           <FaReceipt className="text-primary text-lg" />
                           <div>
-                            <h4>{payment._id}</h4>
+                            <h4>{payment.transactionId}</h4>
                           </div>
                         </div>
                       </td>
@@ -174,7 +218,7 @@ const PaymentHistory = () => {
                         <div className="flex items-center gap-2">
                           <FaCheckCircle className="text-secondary" />
                           <span className="badge badge-success badge-sm text-white">
-                            Completed
+                            Paid
                           </span>
                         </div>
                       </td>
@@ -203,6 +247,38 @@ const PaymentHistory = () => {
               </table>
             </div>
           )}
+          {/* pagination */}
+          <div className="my-2 flex justify-center items-center gap-3">
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv - 1)}
+              disabled={currentPage === 1}
+            >
+              <FaChevronCircleLeft />
+            </button>
+            <div className="flex justify-center items-center gap-2">
+              {[...Array(totalPages)].map((_, index) => (
+                <button
+                  key={index}
+                  className={`btn ${
+                    currentPage === index + 1
+                      ? "btn-primary"
+                      : "btn-primary btn-outline"
+                  }`}
+                  onClick={() => setCurrentPage(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              className="btn btn-sm btn-primary btn-outline"
+              onClick={() => setCurrentPage((prv) => prv + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronCircleRight />
+            </button>
+          </div>
 
           {/* Table Footer */}
           {payments && payments.length > 0 && (

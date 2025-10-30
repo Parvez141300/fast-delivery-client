@@ -96,12 +96,23 @@ const StripePaymentForm = ({ parcelData }) => {
 
       console.log("confirmed payment intent", paymentIntent);
 
+      // generate transactionId
+      const generateTransactionId = () => {
+        const timeStamp = Date.now().toString(36);
+        const random = Math.random().toString(36).substring(2, 8);
+        return `TXN-${timeStamp}-${random}`;
+      };
+
+      const transactionId = generateTransactionId();
+
       // ✅ Update parcel payment status
       await axiosSecure.patch(`/parcels/payment/${parcelData?._id}`);
 
       // ✅ Save payment history
-      await axiosSecure.post("/payments", {
+      await axiosSecure
+        .post("/payments", {
           parcelId: parcelData?._id,
+          transactionId,
           userEmail: user?.email,
           amount: parcelData?.amount,
           paymentMethod: paymentIntent.payment_method_types,
