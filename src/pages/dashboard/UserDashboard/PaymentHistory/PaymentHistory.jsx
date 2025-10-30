@@ -10,6 +10,7 @@ import {
   FaChevronCircleRight,
   FaFileDownload,
   FaReceipt,
+  FaSearch,
 } from "react-icons/fa";
 
 const PaymentHistory = () => {
@@ -101,7 +102,7 @@ const PaymentHistory = () => {
             className="btn btn-primary"
             onClick={() => setSearch(searchInput)}
           >
-            Search
+            <FaSearch />
           </button>
         </fieldset>
         {/* select field */}

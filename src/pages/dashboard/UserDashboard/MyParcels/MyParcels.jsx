@@ -9,6 +9,7 @@ import {
   FaChevronCircleRight,
   FaEye,
   FaMoneyBill,
+  FaSearch,
   FaTimesCircle,
 } from "react-icons/fa";
 import StatusBadge from "../shared/StatusBadge";
@@ -295,7 +296,7 @@ const MyParcels = () => {
             className="btn btn-primary"
             onClick={() => setSearch(searchInput)}
           >
-            Search
+            <FaSearch />
           </button>
         </fieldset>
         <fieldset className="fieldset">
