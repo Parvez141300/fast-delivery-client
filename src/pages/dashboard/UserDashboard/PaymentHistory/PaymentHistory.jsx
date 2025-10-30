@@ -68,8 +68,8 @@ const PaymentHistory = () => {
           </p>
         </div>
         <div className="mt-4 lg:mt-0">
-          <div className="stat bg-white shadow-lg rounded-lg px-6 py-4">
-            <div className="stat-title text-gray-600">Total Payments</div>
+          <div className="stat bg-base-300 shadow-lg rounded-lg px-6 py-4">
+            <div className="stat-title text-primary">Total Payments</div>
             <div className="stat-value text-primary text-3xl">
               {totalPayments || 0}
             </div>
