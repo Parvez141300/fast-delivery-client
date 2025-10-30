@@ -46,15 +46,18 @@ const PendingRiders = () => {
 
   // set rider pending to active
   const activateMutation = useMutation({
-    mutationFn: async (riderId) => {
-      const res = await axiosSecure.patch(`/riders/status/${riderId}`, {makeStatus: "active"});
+    mutationFn: async (rider) => {
+      const res = await axiosSecure.patch(`/riders/status/${rider._id}`, {
+        makeStatus: "active",
+        riderEmail: rider.email,
+      });
       return res.data;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ["pending-riders"] });
       Swal.fire({
         title: "Activated!",
-        text: "Rider has been activated successfully.",
+        text: data.message,
         icon: "success",
         confirmButtonColor: "#10b981",
         timer: 2000,
@@ -252,7 +255,7 @@ const PendingRiders = () => {
       buttonsStyling: false,
     }).then((result) => {
       if (result.isConfirmed) {
-        activateMutation.mutate(rider._id);
+        activateMutation.mutate(rider);
       }
     });
   };
