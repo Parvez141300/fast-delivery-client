@@ -17,6 +17,7 @@ import PaymentHistory from "../pages/dashboard/UserDashboard/PaymentHistory/Paym
 import BeARider from "../pages/BeARider/BeARider";
 import ActiveRiders from "../pages/dashboard/AdminDashboard/ActiveRiders/ActiveRiders";
 import PendingRiders from "../pages/dashboard/AdminDashboard/PendingRiders/PendingRiders";
+import ManageUsers from "../pages/dashboard/AdminDashboard/ManageUsers/ManageUsers";
 
 export const router = createBrowserRouter([
   // root layout
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
       {
         path: 'pending-riders',
         Component: PendingRiders
+      },
+      {
+        path: 'manage-users',
+        Component: ManageUsers
       },
     ],
   },
