@@ -14,6 +14,7 @@ import {
   FaBell,
   FaMotorcycle,
   FaClock,
+  FaUserCog,
 } from "react-icons/fa";
 import { LuPackageSearch } from "react-icons/lu";
 
@@ -64,8 +65,8 @@ const DashboardLayout = () => {
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
           }`
         }
       >
@@ -78,8 +79,8 @@ const DashboardLayout = () => {
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
           }`
         }
       >
@@ -89,12 +90,11 @@ const DashboardLayout = () => {
       {/* rider active riders */}
       <NavLink
         to="/dashboard/active-riders"
-        end
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
           }`
         }
       >
@@ -104,12 +104,11 @@ const DashboardLayout = () => {
       {/* pending riders */}
       <NavLink
         to="/dashboard/pending-riders"
-        end
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
           }`
         }
       >
@@ -122,13 +121,28 @@ const DashboardLayout = () => {
         className={({ isActive }) =>
           `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
             isActive
-              ? "bg-primary text-white shadow-md border-l-4 border-white"
-              : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
           }`
         }
       >
         <FaMoneyBill className="text-lg" />
         <span className="flex-1">Payment History</span>
+      </NavLink>
+      {/* manage users route */}
+      <NavLink
+        to="/dashboard/manage-users"
+        className={({ isActive }) =>
+          `flex items-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+            isActive
+              ? "bg-primary text-white shadow-md"
+              : "hover:bg-primary/20 hover:text-gray-900"
+          }`
+        }
+      >
+        <FaUserCog className="text-lg" />
+
+        <span className="flex-1">Manage Users</span>
       </NavLink>
 
       <NavLink
