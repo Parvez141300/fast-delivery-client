@@ -70,10 +70,70 @@ const ManageUsers = () => {
     },
   });
 
+  // toggle admin fetch method
+  const toggleAdminMutation = useMutation({
+    mutationFn: async (user) => {
+      const newRole = user.role === "admin" ? "user" : "admin";
+      const res = await axiosSecure.patch(`/users/role/${user._id}`, {
+        newRole: newRole,
+        userEmail: user.email,
+      });
+      return res.data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["all-users"] });
+      Swal.fire({
+        title: "Success!",
+        text: "User role updated successfully.",
+        icon: "success",
+        confirmButtonColor: "#10b981",
+        timer: 2000,
+      });
+    },
+    onError: (error) => {
+      Swal.fire({
+        title: "Error!",
+        text: error.message || "Failed to update user role. Please try again.",
+        icon: "error",
+        confirmButtonColor: "#ef4444",
+      });
+    },
+  });
+
   const users = data?.users || [];
   const totalUsers = data?.totalUsers || 0;
   const totalPages = Math.ceil(totalUsers / limit);
 
+  // make admin or remove admin
+  const handleToggleAdmin = (user) => {
+    const action = user.role === "admin" ? "remove admin" : "make admin";
+    const actionText =
+      user.role === "admin" ? "Remove Admin privileges from" : "make";
+
+    Swal.fire({
+      title: `${action === "make admin" ? "Make Admin?" : "Remove Admin?"}`,
+      text: `Are you sure you want to ${actionText} ${user.name}?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: action === "make admin" ? "#8b5cf6" : "#f59e0b",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText:
+        action === "make admin" ? "Yes, Make Admin!" : "Yes, Remove Admin!",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+      customClass: {
+        popup: "rounded-lg",
+        confirmButton:
+          action === "make admin" ? "btn btn-primary" : "btn btn-warning",
+        cancelButton: "btn btn-ghost",
+      },
+      buttonsStyling: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        toggleAdminMutation.mutate(user);
+      }
+    });
+  };
   // delete user
   const handleDeleteUser = (user) => {
     Swal.fire({
@@ -317,11 +377,10 @@ const ManageUsers = () => {
                   {/* Actions */}
                   <td className="py-4 px-6">
                     <div className="flex flex-col gap-2">
-                      {/* {user.role !== "rider" && (
+                      {user.role !== "rider" && (
                         <button
                           onClick={() => handleToggleAdmin(user)}
-                          disabled={toggleAdminMutation.isPending}
-                          className={`btn btn-sm btn-outline tooltip ${
+                          className={`btn btn-sm tooltip ${
                             user.role === "admin"
                               ? "btn-warning"
                               : "btn-primary"
@@ -331,30 +390,32 @@ const ManageUsers = () => {
                               ? "Remove Admin"
                               : "Make Admin"
                           }
+                          disabled={toggleAdminMutation.isPending}
                         >
                           {user.role === "admin" ? (
                             <FaUserTimes />
                           ) : (
                             <FaUserShield />
                           )}
+
                           {toggleAdminMutation.isPending
-                            ? "Updating..."
+                            ? "Updating"
                             : user.role === "admin"
                             ? "Remove Admin"
                             : "Make Admin"}
                         </button>
-                      )} */}
+                      )}
 
                       <button
                         onClick={() => handleDeleteUser(user)}
-                        // disabled={deleteUserMutation.isPending}
-                        className="btn btn-sm btn-outline btn-error tooltip"
+                        disabled={deleteUserMutation.isPending}
+                        className="btn btn-sm btn-outline btn-secondary tooltip"
                         data-tip="Delete User"
                       >
                         <FaTrash />
-                        {/* {deleteUserMutation.isPending
+                        {deleteUserMutation.isPending
                           ? "Deleting..."
-                          : "Delete"} */}
+                          : "Delete"}
                       </button>
                     </div>
                   </td>
