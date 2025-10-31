@@ -193,7 +193,7 @@ const Register = () => {
               placeholder="Password"
               {...register("password", {
                 required: "Password is required",
-                maxLength: 10,
+                maxLength: 20,
               })}
             />
             {showPassword ? (
@@ -219,7 +219,7 @@ const Register = () => {
           )}
           {errors.password?.type === "maxLength" && (
             <p className="text-red-500">
-              Password must be maximum 10 character long
+              Password must be maximum 20 character long
             </p>
           )}
           {/* confirm password field */}
