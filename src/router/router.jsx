@@ -19,13 +19,14 @@ import ActiveRiders from "../pages/dashboard/AdminDashboard/ActiveRiders/ActiveR
 import PendingRiders from "../pages/dashboard/AdminDashboard/PendingRiders/PendingRiders";
 import ManageUsers from "../pages/dashboard/AdminDashboard/ManageUsers/ManageUsers";
 import Forbidden from "../pages/Forbidden/Forbidden";
+import NotFound from "../pages/Notfound/Notfound";
 
 export const router = createBrowserRouter([
   // root layout
   {
     path: "/",
     Component: RootLayout,
-    errorElement: <Forbidden />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
