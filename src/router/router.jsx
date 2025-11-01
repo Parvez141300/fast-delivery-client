@@ -18,12 +18,14 @@ import BeARider from "../pages/BeARider/BeARider";
 import ActiveRiders from "../pages/dashboard/AdminDashboard/ActiveRiders/ActiveRiders";
 import PendingRiders from "../pages/dashboard/AdminDashboard/PendingRiders/PendingRiders";
 import ManageUsers from "../pages/dashboard/AdminDashboard/ManageUsers/ManageUsers";
+import Forbidden from "../pages/Forbidden/Forbidden";
 
 export const router = createBrowserRouter([
   // root layout
   {
     path: "/",
     Component: RootLayout,
+    errorElement: <Forbidden />,
     children: [
       {
         index: true,
@@ -43,7 +45,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/be-a-rider",
-        element: <PrivateRoute><BeARider /></PrivateRoute>
+        element: (
+          <PrivateRoute>
+            <BeARider />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/about-us",
@@ -52,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact-us",
         Component: ContactUs,
+      },
+      {
+        path: "/forbidden",
+        Component: Forbidden,
       },
     ],
   },
@@ -89,23 +99,23 @@ export const router = createBrowserRouter([
       },
       {
         path: "stripe-payment/:parcelId",
-        Component: StripePayment
+        Component: StripePayment,
       },
       {
-        path: 'payment-history',
-        Component: PaymentHistory
+        path: "payment-history",
+        Component: PaymentHistory,
       },
       {
-        path: 'active-riders',
-        Component: ActiveRiders
+        path: "active-riders",
+        Component: ActiveRiders,
       },
       {
-        path: 'pending-riders',
-        Component: PendingRiders
+        path: "pending-riders",
+        Component: PendingRiders,
       },
       {
-        path: 'manage-users',
-        Component: ManageUsers
+        path: "manage-users",
+        Component: ManageUsers,
       },
     ],
   },

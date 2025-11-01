@@ -217,7 +217,7 @@ const ManageUsers = () => {
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Search by name, email, role..."
+              placeholder="Search by email"
               className="input focus-within:outline-0 flex-1"
               value={searchInput}
               onChange={(e) => {
