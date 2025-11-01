@@ -239,53 +239,54 @@ const PaymentHistory = () => {
                 ))}
               </tbody>
             </table>
-          </div>
-        )}
-        {/* pagination */}
-        <div className="my-2 flex justify-center items-center gap-3">
-          <button
-            className="btn btn-sm btn-primary btn-outline"
-            onClick={() => setCurrentPage((prv) => prv - 1)}
-            disabled={currentPage === 1}
-          >
-            <FaChevronCircleLeft />
-          </button>
-          <div className="flex justify-center items-center gap-2">
-            {[...Array(totalPages)].map((_, index) => (
+            {/* pagination */}
+            <div className="my-2 flex justify-center items-center gap-3">
               <button
-                key={index}
-                className={`btn ${
-                  currentPage === index + 1
-                    ? "btn-primary"
-                    : "btn-primary btn-outline"
-                }`}
-                onClick={() => setCurrentPage(index + 1)}
+                className="btn btn-sm btn-primary btn-outline"
+                onClick={() => setCurrentPage((prv) => prv - 1)}
+                disabled={currentPage === 1}
               >
-                {index + 1}
+                <FaChevronCircleLeft />
               </button>
-            ))}
-          </div>
-          <button
-            className="btn btn-sm btn-primary btn-outline"
-            onClick={() => setCurrentPage((prv) => prv + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <FaChevronCircleRight />
-          </button>
-        </div>
-
-        {/* Table Footer */}
-        {payments && payments.length > 0 && (
-          <div className="px-6 py-4 border-t ">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-sm ">
-              <div className="flex items-center gap-1">
-                Showing <span className="font-semibold">{payments.length}</span>
-                <span>payment{payments.length !== 1 ? "s" : ""}</span>
+              <div className="flex justify-center items-center gap-2">
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`btn ${
+                      currentPage === index + 1
+                        ? "btn-primary"
+                        : "btn-primary btn-outline"
+                    }`}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
               </div>
-              <div className="mt-2 lg:mt-0">
-                Last updated: {new Date().toLocaleTimeString()}
-              </div>
+              <button
+                className="btn btn-sm btn-primary btn-outline"
+                onClick={() => setCurrentPage((prv) => prv + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <FaChevronCircleRight />
+              </button>
             </div>
+
+            {/* Table Footer */}
+            {payments && payments.length > 0 && (
+              <div className="px-6 py-4 border-t ">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between text-sm ">
+                  <div className="flex items-center gap-1">
+                    Showing{" "}
+                    <span className="font-semibold">{payments.length}</span>
+                    <span>payment{payments.length !== 1 ? "s" : ""}</span>
+                  </div>
+                  <div className="mt-2 lg:mt-0">
+                    Last updated: {new Date().toLocaleTimeString()}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
